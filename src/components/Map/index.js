@@ -6,7 +6,7 @@ const Map = ({ apiKey }) => {
   const [markerPosition, setMarkerPosition] = useState(location);
 
   const mapStyles = {
-    height: "650px",
+    height: "700px",
     width: "700px",
     borderTopRightRadius: "8px",
     borderBottomRightRadius: "8px",

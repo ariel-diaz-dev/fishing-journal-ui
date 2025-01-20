@@ -2,12 +2,13 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NewFishingTrip from "./views/NewFishingTrip";
+import TopNav from "./components/Topnav";
 
 function App() {
   return (
     <Router>
       <div className="App">
-          <h1>Fishing Journal</h1>
+        <TopNav />
         <main>
           <Routes>
             <Route path="/" element={<NewFishingTrip />} />
