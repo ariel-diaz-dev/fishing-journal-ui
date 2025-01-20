@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import Map from '../../components/Map';
-import FishingInfoWidget from '../../components/FishingInfoWidget'
 import "./index.css";
+import NewFishingTripTabs from "../../components/NewFishingTripTabs";
 
 const NewFishingTrip = () => {
     const [tripDetails, setTripDetails] = useState({
@@ -36,6 +35,19 @@ const NewFishingTrip = () => {
                 <form className="new-fishing-trip-form text-left" onSubmit={handleSubmit}>
                     <h2 className="text-xl font-semibold uppercase mb-0">Plan a New Fishing Trip</h2>
                     <label>
+                        Location:
+                        <select
+                            name="location"
+                            value={tripDetails.location}
+                            onChange={handleChange}
+                            required
+                            className="form-select"
+                        >
+                            <option value="Turkey Point, Biscayne">Turkey Point, Biscayne</option>
+                            <option value="Flamingo, Everglades">Flamingo, Everglades</option>
+                        </select>
+                    </label>
+                    <label>
                         Date:
                         <input
                             type="date"
@@ -56,19 +68,6 @@ const NewFishingTrip = () => {
                             required
                             className="form-input"
                         />
-                    </label>
-                    <label>
-                        Location:
-                        <select
-                            name="location"
-                            value={tripDetails.location}
-                            onChange={handleChange}
-                            required
-                            className="form-select"
-                        >
-                            <option value="Turkey Point, Biscayne">Turkey Point, Biscayne</option>
-                            <option value="Flamingo, Everglades">Flamingo, Everglades</option>
-                        </select>
                     </label>
                     <label>
                         Gear:
@@ -94,12 +93,9 @@ const NewFishingTrip = () => {
                     </label>
                     <button type="submit" className="form-button">Save Trip</button>
                 </form>
-                <div className="map-container">
-                    <Map />
+                <div>
+                    <NewFishingTripTabs />
                 </div>
-            </div>
-            <div className="fishingInfoContainer">
-                <FishingInfoWidget location="Miami,FL" />
             </div>
         </React.Fragment>
     );
