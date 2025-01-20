@@ -16,3 +16,8 @@ UI for the Fishing Journal App
 - TackleList
 - NewTackleDialog
 - FishingInsights
+
+
+# Google Maps API Key
+Google Maps API (Fishing Journal)
+API Key Restricted to IP Addresses

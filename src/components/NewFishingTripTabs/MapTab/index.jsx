@@ -4,8 +4,8 @@ import Map from "../../Map";
 const MapTab = () => {
   return (
     <div>
-      {/* <Map /> */}
-      Placeholder for Map
+      <Map />
+      {/* Placeholder for Map */}
     </div>
   );
 };
