@@ -3,16 +3,19 @@ import "./index.css";
 import NewFishingTripTabs from "../../components/NewFishingTripTabs";
 
 const NewFishingTrip = () => {
+
+
     const [tripDetails, setTripDetails] = useState({
-        date: "",
+        date: new Date().toJSON().slice(0, 10),
         location: "Turkey Point, Biscayne", // Default to the first option
-        arrivalTime: "",
+        arrivalTime: "07:00",
         gear: "",
         notes: "",
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log(name, value);
         setTripDetails({ ...tripDetails, [name]: value });
     };
 
