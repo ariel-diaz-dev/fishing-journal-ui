@@ -4,21 +4,21 @@ import NewFishingTripTabs from "../../components/NewFishingTripTabs";
 import useLocation from "../../hooks/useLocation";
 
 const NewFishingTrip = () => {
+    const { locations, setLocationByName, selectedLocation } = useLocation();
+    const defaultLocationName = locations[0].name;
 
     const [tripDetails, setTripDetails] = useState({
         date: new Date().toJSON().slice(0, 10),
-        location: "Turkey Point, Biscayne",
+        locationName: defaultLocationName,
         arrivalTime: "07:00",
         gear: "",
         notes: "",
     });
 
-    const { locations, setLocationByName, selectedLocation } = useLocation();
-
     const handleLocationChange = (e) => {
         const locationName = e.target.value;
         setLocationByName(locationName);
-        setTripDetails({ ...tripDetails, location: locationName });
+        setTripDetails({ ...tripDetails, locationName: locationName });
     };
 
     const handleChange = (e) => {
@@ -28,11 +28,12 @@ const NewFishingTrip = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert("Fishing trip planned successfully!");
-         // Reset form to default
+        console.log("Submitting trip -> ", tripDetails);
+        setLocationByName(defaultLocationName);
+        // Reset form to default
         setTripDetails({
             date: "",
-            location: "Turkey Point, Biscayne",
+            locationName: defaultLocationName,
             arrivalTime: "",
             gear: "",
             notes: "",
@@ -51,7 +52,7 @@ const NewFishingTrip = () => {
                                 id="location-dropdown"
                                 className="form-select"
                                 onChange={handleLocationChange}
-                                value={selectedLocation.name}
+                                value={tripDetails.locationName}
                             >
                                 {locations.map((location) => (
                                     <option key={location.name} value={location.name}>
