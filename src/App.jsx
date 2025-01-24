@@ -5,6 +5,7 @@ import NewFishingTripPage from "./views/NewFishingTripPage";
 import TopNav from "./components/Topnav";
 import LandingPage from "./views/LandingPage";
 import FishingTripDetailsPage from "./views/FishingTripDetailsPage";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             {/* Add more routes here as needed */}
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );
