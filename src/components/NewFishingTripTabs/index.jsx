@@ -3,13 +3,13 @@ import FishingForecastTab from "./FishingForecastTab";
 import MapTab from "./MapTab";
 import "./index.css";
 
-const NewFishingTripTabs = () => {
+const NewFishingTripTabs = ({location}) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const renderTabContent = () => {
     switch (activeTab) {
       case 0:
-        return <MapTab />;
+        return <MapTab location={location} />;
       case 1:
         return <FishingForecastTab />;
       default:

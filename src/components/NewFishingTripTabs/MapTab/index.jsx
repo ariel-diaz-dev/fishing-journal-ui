@@ -1,11 +1,10 @@
 import React from "react";
 import Map from "../../Map";
 
-const MapTab = () => {
+const MapTab = ({ location }) => {
   return (
     <div>
-      <Map />
-      {/* Placeholder for Map */}
+      {location && <Map location={location.coordinates} />}
     </div>
   );
 };

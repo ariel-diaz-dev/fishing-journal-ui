@@ -1,31 +1,38 @@
 import React, { useState } from "react";
 import "./index.css";
 import NewFishingTripTabs from "../../components/NewFishingTripTabs";
+import useLocation from "../../hooks/useLocation";
 
 const NewFishingTrip = () => {
 
-
     const [tripDetails, setTripDetails] = useState({
         date: new Date().toJSON().slice(0, 10),
-        location: "Turkey Point, Biscayne", // Default to the first option
+        location: "Turkey Point, Biscayne",
         arrivalTime: "07:00",
         gear: "",
         notes: "",
     });
 
+    const { locations, setLocationByName, selectedLocation } = useLocation();
+
+    const handleLocationChange = (e) => {
+        const locationName = e.target.value;
+        setLocationByName(locationName);
+        setTripDetails({ ...tripDetails, location: locationName });
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
         setTripDetails({ ...tripDetails, [name]: value });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("New Fishing Trip Details:", tripDetails);
         alert("Fishing trip planned successfully!");
+         // Reset form to default
         setTripDetails({
             date: "",
-            location: "Turkey Point, Biscayne", // Reset to default
+            location: "Turkey Point, Biscayne",
             arrivalTime: "",
             gear: "",
             notes: "",
@@ -39,16 +46,20 @@ const NewFishingTrip = () => {
                     <h2 className="text-xl font-semibold uppercase mb-0">Plan a New Fishing Trip</h2>
                     <label>
                         Location:
-                        <select
-                            name="location"
-                            value={tripDetails.location}
-                            onChange={handleChange}
-                            required
-                            className="form-select"
-                        >
-                            <option value="Turkey Point, Biscayne">Turkey Point, Biscayne</option>
-                            <option value="Flamingo, Everglades">Flamingo, Everglades</option>
-                        </select>
+                        <div className="form-group">
+                            <select
+                                id="location-dropdown"
+                                className="form-select"
+                                onChange={handleLocationChange}
+                                value={selectedLocation.name}
+                            >
+                                {locations.map((location) => (
+                                    <option key={location.name} value={location.name}>
+                                        {location.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                     </label>
                     <label>
                         Date:
@@ -97,7 +108,7 @@ const NewFishingTrip = () => {
                     <button type="submit" className="form-button">Save Trip</button>
                 </form>
                 <div>
-                    <NewFishingTripTabs />
+                    <NewFishingTripTabs location={selectedLocation} />
                 </div>
             </div>
         </React.Fragment>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom"; // Ensure you're using React Router for navigation
 import RedirectButton from "../../components/RedirectButton";
 
