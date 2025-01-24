@@ -4,7 +4,7 @@ import "./index.css";
 import NewFishingTripTabs from "../../components/NewFishingTripTabs";
 import useLocation from "../../hooks/useLocation";
 
-const NewFishingTrip = () => {
+const NewFishingTripPage = () => {
     const navigate = useNavigate();
     const {
         locations,
@@ -124,4 +124,4 @@ const NewFishingTrip = () => {
     );
 };
 
-export default NewFishingTrip;
+export default NewFishingTripPage;

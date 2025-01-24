@@ -8,7 +8,7 @@ const FishingForecastWidget = () => {
 
       {/* Weather Forecast */}
       <section className="widget-section">
-        <h3>Weather Forecast</h3>
+        <h3>Weather Forecast (temp, wind, wind direction)</h3>
       </section>
 
       {/* Water Temperature */}

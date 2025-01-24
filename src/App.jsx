@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import NewFishingTrip from "./views/NewFishingTrip";
+import NewFishingTripPage from "./views/NewFishingTripPage";
 import TopNav from "./components/Topnav";
 import LandingPage from "./views/LandingPage";
+import FishingTripDetailsPage from "./views/FishingTripDetailsPage";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/new-trip" element={<NewFishingTrip />} />
+            <Route path="/new-trip" element={<NewFishingTripPage />} />
+            <Route path="/trips/:tripId" element={<FishingTripDetailsPage />} />
             {/* Add more routes here as needed */}
           </Routes>
         </main>

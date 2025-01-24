@@ -1,0 +1,81 @@
+.details-page {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .page-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #34495e;
+  }
+  
+  .trip-details {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trip-details p {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  
+  .report-form h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .report-form label {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #34495e;
+  }
+  
+  .report-form textarea,
+  .report-form input,
+  .report-form select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .report-form textarea {
+    resize: vertical;
+  }
+  
+  button {
+    padding: 10px 15px;
+    font-size: 16px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #2980b9;
+  }
+  
+  .delete-button {
+    background-color: #e74c3c;
+    color: #fff;
+  }
+  
+  .delete-button:hover {
+    background-color: #c0392b;
+  }
+  

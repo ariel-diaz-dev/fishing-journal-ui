@@ -10,7 +10,7 @@ UI for the Fishing Journal App
 - Calendar
 
 # Views
-- NewFishingTrip
+- NewFishingTripPage
 - FishingTripList
 - FishingTripDetails
 - TackleList
