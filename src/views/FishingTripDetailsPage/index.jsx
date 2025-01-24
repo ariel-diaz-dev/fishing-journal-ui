@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Map from "../../components/Map";
+import useLocation from "../../hooks/useLocation";
 import "./index.css";
 
 const FishingTripDetailsPage = () => {
+  const {
+    locations,
+    setLocationByName,
+    selectedLocation,
+    defaultLocation
+  } = useLocation();
 
   const trip = {
-    location: "Turkey Point",
+    location: "Flamingo, Everglades",
     date: "2025-01-01",
     arrivalTime: "06:00",
     gear: "Rod, Reel, Bait",
@@ -18,11 +26,15 @@ const FishingTripDetailsPage = () => {
     },
   };
 
-  const onSaveReport = () =>{
+  useEffect(() => {
+    setLocationByName(trip.location);
+  }, []);
+
+  const onSaveReport = () => {
     alert("Saved report ...");
   }
 
-  const onDelete = () =>{
+  const onDelete = () => {
     alert("Deleted trip ...");
   }
 
@@ -58,16 +70,46 @@ const FishingTripDetailsPage = () => {
       <h1 className="page-title">Fishing Trip Details</h1>
 
       {/* Trip Details */}
-      <div className="trip-details">
-        <h2>Saved Trip Information</h2>
-        <p><strong>Location:</strong> {trip.location}</p>
-        <p><strong>Date:</strong> {trip.date}</p>
-        <p><strong>Arrival Time:</strong> {trip.arrivalTime}</p>
-        <p><strong>Gear:</strong> {trip.gear}</p>
-        <p><strong>Notes:</strong> {trip.notes}</p>
-        <p><strong>Tide Times:</strong> {trip.tideTimes}</p>
-        <p><strong>Water Temperature:</strong> {trip.waterTemperature}°C</p>
-        <p><strong>Weather Forecast:</strong> {trip.weatherForecast.temperature}°C, {trip.weatherForecast.wind} mph ({trip.weatherForecast.windDirection})</p>
+      <div className="trip-details text-left grid grid-cols-2 ">
+        <div>
+          <p><strong>Location:</strong> {trip.location}</p>
+          <p><strong>Date:</strong> {trip.date}</p>
+          <p><strong>Arrival Time:</strong> {trip.arrivalTime}</p>
+          <p><strong>Gear:</strong> {trip.gear}</p>
+          <p><strong>Notes:</strong> {trip.notes}</p>
+          <p><strong>Tide Times:</strong> {trip.tideTimes}</p>
+          <p><strong>Water Temperature:</strong> {trip.waterTemperature}°C</p>
+          <p><strong>Weather Forecast:</strong> {trip.weatherForecast.temperature}°C, {trip.weatherForecast.wind} mph ({trip.weatherForecast.windDirection})</p>
+        </div>
+        <div>
+          <Map
+            location={selectedLocation.coordinates}
+            options={{
+              mapContainerStyle: {
+                height: "300px",
+                width: "100%",
+                borderBottomRightRadius: "8px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+              },
+              zoom: 13,
+              options: {
+                mapTypeId: "satellite",
+                clickableIcons: false,
+                fullscreenControl: false, // Disable fullscreen control
+                streetViewControl: false, // Disable street view control
+                mapTypeControl: false, // Disable map type control
+                zoomControl: false, // Disable zoom control,
+                draggable: false
+              }
+            }}
+            styles={{
+              height: "300px",
+              width: "100%",
+              borderBottomRightRadius: "8px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
+            }}
+          />
+        </div>
       </div>
 
       {/* Fishing Report Form */}
