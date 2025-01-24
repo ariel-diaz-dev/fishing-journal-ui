@@ -1,11 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Ensure you're using React Router for navigation
 import "./index.css";
 import NewFishingTripTabs from "../../components/NewFishingTripTabs";
 import useLocation from "../../hooks/useLocation";
 
 const NewFishingTrip = () => {
-    const { locations, setLocationByName, selectedLocation } = useLocation();
-    const defaultLocationName = locations[0].name;
+    const navigate = useNavigate();
+    const {
+        locations,
+        setLocationByName,
+        selectedLocation,
+        defaultLocation
+    } = useLocation();
+    const defaultLocationName = defaultLocation.name;
 
     const [tripDetails, setTripDetails] = useState({
         date: new Date().toJSON().slice(0, 10),
@@ -38,6 +45,7 @@ const NewFishingTrip = () => {
             gear: "",
             notes: "",
         });
+        navigate('/');
     };
 
     return (

@@ -5,8 +5,9 @@ const useLocation = () => {
     { name: "Turkey Point, Biscayne", coordinates: { lat: 25.4647, lng: -80.3359 } },
     { name: "Flamingo, Everglades", coordinates: { lat: 25.1344, lng: -80.9218 } }
   ];
+  const defaultLocation = locations[0];
 
-  const [selectedLocation, setSelectedLocation] = useState(locations[0]);
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
 
   const setLocationByName = (locationName) => {
     const location = locations.find((location) => location.name === locationName);
@@ -17,7 +18,7 @@ const useLocation = () => {
     }
   };
 
-  return { selectedLocation, setLocationByName, locations };
+  return { selectedLocation, setLocationByName, locations, defaultLocation };
 };
 
 export default useLocation;
