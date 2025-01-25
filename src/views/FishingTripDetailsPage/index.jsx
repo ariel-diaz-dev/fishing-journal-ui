@@ -5,10 +5,8 @@ import "./index.css";
 
 const FishingTripDetailsPage = () => {
   const {
-    locations,
     setLocationByName,
-    selectedLocation,
-    defaultLocation
+    selectedLocation
   } = useLocation();
 
   const trip = {
@@ -26,6 +24,7 @@ const FishingTripDetailsPage = () => {
     },
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setLocationByName(trip.location);
   }, []);
@@ -71,7 +70,7 @@ const FishingTripDetailsPage = () => {
 
       {/* Trip Details */}
       <div className="trip-details text-left grid grid-cols-2 ">
-        <div>
+        <div className="pt-2 pl-5">
           <p><strong>Location:</strong> {trip.location}</p>
           <p><strong>Date:</strong> {trip.date}</p>
           <p><strong>Arrival Time:</strong> {trip.arrivalTime}</p>
@@ -88,6 +87,7 @@ const FishingTripDetailsPage = () => {
               mapContainerStyle: {
                 height: "300px",
                 width: "100%",
+                borderTopRightRadius: "8px",
                 borderBottomRightRadius: "8px",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
               },
@@ -95,10 +95,10 @@ const FishingTripDetailsPage = () => {
               options: {
                 mapTypeId: "satellite",
                 clickableIcons: false,
-                fullscreenControl: false, // Disable fullscreen control
-                streetViewControl: false, // Disable street view control
-                mapTypeControl: false, // Disable map type control
-                zoomControl: false, // Disable zoom control,
+                fullscreenControl: false,
+                streetViewControl: false,
+                mapTypeControl: false,
+                zoomControl: false,
                 draggable: false
               }
             }}
