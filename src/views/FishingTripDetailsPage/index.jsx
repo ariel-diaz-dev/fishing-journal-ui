@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import Map from "../../components/Map";
 import useLocation from "../../hooks/useLocation";
 import "./index.css";
@@ -11,8 +12,8 @@ const FishingTripDetailsPage = () => {
 
   const trip = {
     location: "Flamingo, Everglades",
-    date: "2025-01-01",
-    arrivalTime: "06:00",
+    date: moment("2025-01-01").format("MMMM Do, YYYY"),
+    arrivalTime: moment("06:00", "HH:mm").format("h:mm A"),
     gear: "Rod, Reel, Bait",
     notes: "Looking forward to the trip!",
     tideTimes: "High: 6:30 AM, Low: 2:00 PM",
@@ -77,8 +78,8 @@ const FishingTripDetailsPage = () => {
           <p><strong>Gear:</strong> {trip.gear}</p>
           <p><strong>Notes:</strong> {trip.notes}</p>
           <p><strong>Tide Times:</strong> {trip.tideTimes}</p>
-          <p><strong>Water Temperature:</strong> {trip.waterTemperature}°C</p>
-          <p><strong>Weather Forecast:</strong> {trip.weatherForecast.temperature}°C, {trip.weatherForecast.wind} mph ({trip.weatherForecast.windDirection})</p>
+          <p><strong>Water Temperature:</strong> {trip.waterTemperature}°F</p>
+          <p><strong>Weather Forecast:</strong> {trip.weatherForecast.temperature}°F, {trip.weatherForecast.wind} mph ({trip.weatherForecast.windDirection})</p>
         </div>
         <div>
           <Map
@@ -117,12 +118,12 @@ const FishingTripDetailsPage = () => {
         <h2>Fishing Report</h2>
 
         <label>
-          Species Caught (with size and weight):
+          Species Caught:
           <textarea
             name="speciesCaught"
             value={report.speciesCaught}
             onChange={(e) => handleInputChange(e)}
-            placeholder="E.g., Bass (2 lbs, 18 inches)"
+            placeholder="e.g Snook (25 in), Redfish (30 in), Tarpon (40 in) ..."
           />
         </label>
 
