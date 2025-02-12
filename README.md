@@ -17,6 +17,15 @@ UI for the Fishing Journal App
 - NewTackleDialog
 - FishingInsights
 
+# API Endpoints
+- GET   /trips
+- POST  /trips
+- PUT   /trips/:id
+- GET   /forecast
+- GET   /tackle
+- POST  /tackle
+- PUT   /tackle/:id
+- GET   /insights
 
 # Google Maps API Key
 Google Maps API (Fishing Journal)
