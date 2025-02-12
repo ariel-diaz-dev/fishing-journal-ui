@@ -18,7 +18,6 @@ const NewFishingTripPage = () => {
         date: new Date().toJSON().slice(0, 10),
         locationName: defaultLocationName,
         arrivalTime: "07:00",
-        gear: "",
         notes: "",
     });
 
@@ -42,7 +41,6 @@ const NewFishingTripPage = () => {
             date: "",
             locationName: defaultLocationName,
             arrivalTime: "",
-            gear: "",
             notes: "",
         });
         navigate('/');
@@ -89,17 +87,6 @@ const NewFishingTripPage = () => {
                             value={tripDetails.arrivalTime}
                             onChange={handleChange}
                             required
-                            className="form-input"
-                        />
-                    </label>
-                    <label>
-                        Gear:
-                        <input
-                            type="text"
-                            name="gear"
-                            value={tripDetails.gear}
-                            onChange={handleChange}
-                            placeholder="List your gear (e.g., rod, bait)"
                             className="form-input"
                         />
                     </label>

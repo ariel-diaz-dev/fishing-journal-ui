@@ -10,24 +10,9 @@ const FishingTripDetailsPage = () => {
     selectedLocation
   } = useLocation();
 
-  const trip = {
-    location: "Flamingo, Everglades",
-    date: moment("2025-01-01").format("MMMM Do, YYYY"),
-    arrivalTime: moment("06:00", "HH:mm").format("h:mm A"),
-    gear: "Rod, Reel, Bait",
-    notes: "Looking forward to the trip!",
-    tideTimes: "High: 6:30 AM, Low: 2:00 PM",
-    waterTemperature: 26,
-    weatherForecast: {
-      temperature: 24,
-      wind: 12,
-      windDirection: "NE",
-    },
-  };
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    setLocationByName(trip.location);
+    setLocationByName(report.location);
   }, []);
 
   const onSaveReport = () => {
@@ -37,21 +22,34 @@ const FishingTripDetailsPage = () => {
   const onDelete = () => {
     alert("Deleted trip ...");
   }
-
   // State for the report enrichment
   const [report, setReport] = useState({
-    speciesCaught: [],
-    weatherConditions: "",
-    luresUsed: [],
-    gearUsed: [],
-    departureTime: "",
-    vessel: "",
-    videoURL: "",
+    "id": "trip-001",
+    "location": "Flamingo, Everglades",
+    "date": moment("2025-01-01").format("MMM. D, YYYY"),
+    "arrivalTime": moment("2025-01-01T12:00:00.000Z").format("h:mm A"),
+    "departureTime": moment("2025-01-01T05:00:00.000Z").format("hh:mm"),
+    "notes": "Excited to explore the flats and catch some snook!",
+    "firstHighTide": moment("2025-01-01T05:45:00.000Z").format("h:mm A"),
+    "firstLowTide": moment("2025-01-01T11:30:00.000Z").format("h:mm A"),
+    "secondHighTide": moment("2025-01-01T18:15:00.000Z").format("h:mm A"),
+    "secondLowTide": moment("2025-01-01T00:20:00.000Z").format("h:mm A"),
+    "waterTemperature": 26,
+    "windSpeed": 12,
+    "windDirection": "NE",
+    "temperature": 28,
+    "speciesCaught": "Snook, Redfish, Tarpon",
+    "weatherConditions": "Sunny with occasional clouds. Light breeze throughout the day.",
+    "lures": "Topwater Popper, Soft Plastic Jerkbait",
+    "gear": "Medium-action rod, spinning reel, braided line",
+    "videoURL": "https://www.youtube.com/watch?v=example",
+    "vessel": "Hobie Outback Kayak"
   });
 
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(`Updating ${name} to ${value}`);
     setReport({ ...report, [name]: value });
   };
 
@@ -72,14 +70,13 @@ const FishingTripDetailsPage = () => {
       {/* Trip Details */}
       <div className="trip-details text-left grid grid-cols-2 ">
         <div className="pt-2 pl-5">
-          <p><strong>Location:</strong> {trip.location}</p>
-          <p><strong>Date:</strong> {trip.date}</p>
-          <p><strong>Arrival Time:</strong> {trip.arrivalTime}</p>
-          <p><strong>Gear:</strong> {trip.gear}</p>
-          <p><strong>Notes:</strong> {trip.notes}</p>
-          <p><strong>Tide Times:</strong> {trip.tideTimes}</p>
-          <p><strong>Water Temperature:</strong> {trip.waterTemperature}°F</p>
-          <p><strong>Weather Forecast:</strong> {trip.weatherForecast.temperature}°F, {trip.weatherForecast.wind} mph ({trip.weatherForecast.windDirection})</p>
+          <p><strong>Location:</strong> {report.location}</p>
+          <p><strong>Date:</strong> {report.date}</p>
+          <p><strong>Arrival Time:</strong> {report.arrivalTime}</p>
+          <p><strong>Notes:</strong> {report.notes}</p>
+          <p><strong>Tides:</strong> &#9660;{report.firstLowTide} &#9650;{report.firstHighTide} &#9660;{report.secondLowTide} &#9650;{report.secondHighTide} </p>
+          <p><strong>Water Temperature:</strong> {report.waterTemperature}°F</p>
+          <p><strong>Weather Forecast:</strong> {report.temperature}°F, {report.wind} mph ({report.windDirection})</p>
         </div>
         <div>
           <Map
@@ -138,30 +135,26 @@ const FishingTripDetailsPage = () => {
         </label>
 
         <label>
+          Gear:
+          <textarea
+            name="gear"
+            value={report.gear}
+            onChange={handleInputChange}
+            placeholder="e.g 7 ft Saint Croix Rod, 3000 Reel, 15 lb Line ..."
+          />
+        </label>
+
+        <label>
           Lures Used:
           <select
-            name="luresUsed"
+            name="lures"
             multiple
-            value={report.luresUsed}
-            onChange={(e) => handleMultiSelectChange(e, "luresUsed")}
+            value={report.lures}
+            onChange={(e) => handleMultiSelectChange(e, "lures")}
           >
             <option value="spinner">Spinner</option>
             <option value="softPlastic">Soft Plastic</option>
             <option value="crankbait">Crankbait</option>
-          </select>
-        </label>
-
-        <label>
-          Gear Used:
-          <select
-            name="gearUsed"
-            multiple
-            value={report.gearUsed}
-            onChange={(e) => handleMultiSelectChange(e, "gearUsed")}
-          >
-            <option value="rod">Rod</option>
-            <option value="reel">Reel</option>
-            <option value="line">Line</option>
           </select>
         </label>
 
