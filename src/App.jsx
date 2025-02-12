@@ -10,9 +10,9 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="app">
         <TopNav />
-        <main>
+        <main className="app-content">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/new-trip" element={<NewFishingTripPage />} />
