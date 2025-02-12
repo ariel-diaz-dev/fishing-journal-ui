@@ -19,6 +19,7 @@ UI for the Fishing Journal App
 
 # API Endpoints
 - GET   /trips
+- GET   /trips/:id
 - POST  /trips
 - PUT   /trips/:id
 - GET   /forecast

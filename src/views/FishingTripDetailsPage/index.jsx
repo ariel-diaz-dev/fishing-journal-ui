@@ -2,27 +2,11 @@ import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Map from "../../components/Map";
 import useLocation from "../../hooks/useLocation";
+import { useGetTripByIdQuery } from "../../services/fishing-journal-api";
+
 import "./index.css";
 
 const FishingTripDetailsPage = () => {
-  const {
-    setLocationByName,
-    selectedLocation
-  } = useLocation();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    setLocationByName(report.location);
-  }, []);
-
-  const onSaveReport = () => {
-    alert("Saved report ...");
-  }
-
-  const onDelete = () => {
-    alert("Deleted trip ...");
-  }
-  // State for the report enrichment
   const [report, setReport] = useState({
     "id": "trip-001",
     "location": "Flamingo, Everglades",
@@ -45,6 +29,35 @@ const FishingTripDetailsPage = () => {
     "videoURL": "https://www.youtube.com/watch?v=example",
     "vessel": "Hobie Outback Kayak"
   });
+
+  const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
+
+  const {
+    setLocationByName,
+    selectedLocation
+  } = useLocation();
+
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    setLocationByName(report.location);
+  }, []);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) {
+    console.log(error);
+    return <div>Error: {error.message}</div>
+  };
+  
+  console.log("Data: ", data);
+
+  const onSaveReport = () => {
+    alert("Saved report ...");
+  }
+
+  const onDelete = () => {
+    alert("Deleted trip ...");
+  }
 
   // Handle form input changes
   const handleInputChange = (e) => {
