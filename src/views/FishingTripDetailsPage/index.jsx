@@ -37,7 +37,6 @@ const FishingTripDetailsPage = () => {
     selectedLocation
   } = useLocation();
 
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setLocationByName(report.location);
