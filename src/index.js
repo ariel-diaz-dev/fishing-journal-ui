@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App';
 import { store } from './store';
-import startMockServer from './pretender';
+import startMockServer from './mocks/pretender';
 
 // Conditionally initialize Pretender only in development mode
 if (process.env.NODE_ENV === 'development') {

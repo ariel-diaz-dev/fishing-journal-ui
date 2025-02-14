@@ -1,40 +1,9 @@
 import Pretender from 'pretender';
+import tackle from './tackle';
+import trip from './trip';
+import trips from './trips';
 
 export default function startMockServer() {
-  const trips = [
-    {
-      id: "trip-001",
-      location: "Flamingo, Everglades",
-      date: "2025-01-01",
-      arrivalTime: "12:00",
-      departureTime: "17:00",
-      notes: "Excited to explore the flats and catch some snook!",
-      firstHighTide: "05:45",
-      firstLowTide: "11:30",
-      secondHighTide: "18:15",
-      secondLowTide: "00:20",
-      waterTemperature: 26,
-      windSpeed: 12,
-      windDirection: "NE",
-      temperature: 28,
-      speciesCaught: "Snook, Redfish, Tarpon",
-      weatherConditions: "Sunny with occasional clouds. Light breeze throughout the day.",
-      lures: ["Topwater Popper", "Soft Plastic Jerkbait"],
-      gear: "Medium-action rod, spinning reel, braided line",
-      videoURL: "https://www.youtube.com/watch?v=example",
-      vessel: "Hobie Outback Kayak"
-    }
-  ];
-
-  const tackle = [
-    {
-      id: "tackle-001",
-      name: "7ft Medium Rod",
-      type: "Rod",
-      brand: "St. Croix",
-      notes: "Perfect for inshore fishing"
-    }
-  ];
 
   const server = new Pretender(function () {
     this.get('http://localhost:4000/api/v1/trips', () => {
@@ -42,7 +11,6 @@ export default function startMockServer() {
     });
 
     this.get('http://localhost:4000/api/v1/trips/:id', (request) => {
-      const trip = trips.find(t => t.id === request.params.id);
       return [200, { 'Content-Type': 'application/json' }, JSON.stringify(trip)];
     });
 

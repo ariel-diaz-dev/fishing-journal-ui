@@ -1,57 +1,87 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import Map from "../../components/Map";
 import useLocation from "../../hooks/useLocation";
-import { useGetTripByIdQuery } from "../../services/fishing-journal-api";
+import {
+  useGetTripByIdQuery,
+  useUpdateTripMutation
+} from "../../services/fishing-journal-api";
 
 import "./index.css";
 
 const FishingTripDetailsPage = () => {
-  const [report, setReport] = useState({
-    "id": "trip-001",
-    "location": "Flamingo, Everglades",
-    "date": moment("2025-01-01").format("MMM. D, YYYY"),
-    "arrivalTime": moment("2025-01-01T12:00:00.000Z").format("h:mm A"),
-    "departureTime": moment("2025-01-01T05:00:00.000Z").format("hh:mm"),
-    "notes": "Excited to explore the flats and catch some snook!",
-    "firstHighTide": moment("2025-01-01T05:45:00.000Z").format("h:mm A"),
-    "firstLowTide": moment("2025-01-01T11:30:00.000Z").format("h:mm A"),
-    "secondHighTide": moment("2025-01-01T18:15:00.000Z").format("h:mm A"),
-    "secondLowTide": moment("2025-01-01T00:20:00.000Z").format("h:mm A"),
-    "waterTemperature": 26,
-    "windSpeed": 12,
-    "windDirection": "NE",
-    "temperature": 28,
-    "speciesCaught": "Snook, Redfish, Tarpon",
-    "weatherConditions": "Sunny with occasional clouds. Light breeze throughout the day.",
-    "lures": "Topwater Popper, Soft Plastic Jerkbait",
-    "gear": "Medium-action rod, spinning reel, braided line",
-    "videoURL": "https://www.youtube.com/watch?v=example",
-    "vessel": "Hobie Outback Kayak"
-  });
+  const navigate = useNavigate();
 
+  const [updateTrip, { isLoading: isUpdating }] = useUpdateTripMutation();
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
+
+  const [report, setReport] = useState(
+    {
+      id: "",
+      location: "",
+      notes: "",
+      date: moment().format("YYYY-MM-DD"),
+      arrivalTime: moment().format(),
+      departureTime: moment().format(),
+      firstHighTide: moment().format(),
+      firstLowTide: moment().format(),
+      secondHighTide: moment().format(),
+      secondLowTide: moment().format(),
+      waterTemperature: 0,
+      windSpeed: 0,
+      windDirection: "",
+      temperature: 0,
+      speciesCaught: "",
+      weatherConditions: "",
+      lures: "",
+      gear: "",
+      videoURL: "",
+      vessel: ""
+    }
+  );
 
   const {
     setLocationByName,
     selectedLocation
   } = useLocation();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    setLocationByName(report.location);
-  }, []);
+    if (!isLoading && data) {
+      const formattedData = {
+        ...data,
+        date: moment(data.date).format("MMM. D, YYYY"),
+        arrivalTime: moment(data.arrivalTime).format("hh:mm"),
+        departureTime: moment(data.departureTime).format("hh:mm"),
+        firstHighTide: moment(data.firstHighTide).format("h:mm A"),
+        firstLowTide: moment(data.firstLowTide).format("h:mm A"),
+        secondHighTide: moment(data.secondHighTide).format("h:mm A"),
+        secondLowTide: moment(data.secondLowTide).format("h:mm A")
+      };
+      setReport(formattedData);
+      setLocationByName(data.location);
+    }
+  }, [data, isLoading]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) {
     console.log(error);
     return <div>Error: {error.message}</div>
   };
-  
+
   console.log("Data: ", data);
 
-  const onSaveReport = () => {
-    alert("Saved report ...");
+  const onSaveReport = async () => {
+    try {
+      await updateTrip({
+        id: "trip-001",
+        ...report
+      }).unwrap();
+      navigate("/");
+      window.scrollTo(0, 0);
+    } catch (err) {
+      console.error('Failed to save trip:', err);
+    }
   }
 
   const onDelete = () => {
@@ -65,11 +95,6 @@ const FishingTripDetailsPage = () => {
     setReport({ ...report, [name]: value });
   };
 
-  const handleMultiSelectChange = (e, key) => {
-    const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-    setReport({ ...report, [key]: selectedOptions });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     onSaveReport(report);
@@ -81,14 +106,12 @@ const FishingTripDetailsPage = () => {
 
       {/* Trip Details */}
       <div className="trip-details text-left grid grid-cols-2 ">
-        <div className="pt-2 pl-5">
+        <div className="pt-2 pl-5 pr-5">
           <p><strong>Location:</strong> {report.location}</p>
           <p><strong>Date:</strong> {report.date}</p>
-          <p><strong>Arrival Time:</strong> {report.arrivalTime}</p>
-          <p><strong>Notes:</strong> {report.notes}</p>
-          <p><strong>Tides:</strong> &#9660;{report.firstLowTide} &#9650;{report.firstHighTide} &#9660;{report.secondLowTide} &#9650;{report.secondHighTide} </p>
           <p><strong>Water Temperature:</strong> {report.waterTemperature}°F</p>
           <p><strong>Weather Forecast:</strong> {report.temperature}°F, {report.wind} mph ({report.windDirection})</p>
+          <p><strong>Tides:</strong> &#9660;{report.firstLowTide} &#9650;{report.firstHighTide} &#9660;{report.secondLowTide} &#9650;{report.secondHighTide} </p>
         </div>
         <div>
           <Map
@@ -124,63 +147,75 @@ const FishingTripDetailsPage = () => {
 
       {/* Fishing Report Form */}
       <form className="report-form" onSubmit={handleSubmit}>
-        <h2>Fishing Report</h2>
+        <div className="flex gap-4 w-full">
+          <label className="flex-1 text-left">
+            Arrival Time:
+            <input
+              type="time"
+              name="arrivalTime"
+              value={report.arrivalTime}
+              onChange={handleInputChange}
+              className="w-full font-normal"
+            />
+          </label>
 
-        <label>
+          <label className="flex-1 text-left">
+            Departure Time:
+            <input
+              type="time"
+              name="departureTime"
+              value={report.departureTime}
+              onChange={handleInputChange}
+              className="w-full font-normal"
+            />
+          </label>
+        </div>
+
+        <label className="text-left">
           Species Caught:
           <textarea
             name="speciesCaught"
             value={report.speciesCaught}
             onChange={(e) => handleInputChange(e)}
             placeholder="e.g Snook (25 in), Redfish (30 in), Tarpon (40 in) ..."
+            className="font-normal"
           />
         </label>
 
-        <label>
+        <label className="text-left">
           Weather Conditions:
           <textarea
             name="weatherConditions"
             value={report.weatherConditions}
             onChange={handleInputChange}
             placeholder="How did you find the weather?"
+            className="font-normal"
           />
         </label>
 
-        <label>
+        <label className="text-left">
           Gear:
           <textarea
             name="gear"
             value={report.gear}
             onChange={handleInputChange}
             placeholder="e.g 7 ft Saint Croix Rod, 3000 Reel, 15 lb Line ..."
+            className="font-normal"
           />
         </label>
 
-        <label>
+        <label className="text-left">
           Lures Used:
-          <select
+          <textarea
             name="lures"
-            multiple
             value={report.lures}
-            onChange={(e) => handleMultiSelectChange(e, "lures")}
-          >
-            <option value="spinner">Spinner</option>
-            <option value="softPlastic">Soft Plastic</option>
-            <option value="crankbait">Crankbait</option>
-          </select>
-        </label>
-
-        <label>
-          Departure Time:
-          <input
-            type="time"
-            name="departureTime"
-            value={report.departureTime}
             onChange={handleInputChange}
+            placeholder="e.g Topwater Popper, Soft Plastic Jerkbait, etc ..."
+            className="font-normal"
           />
         </label>
 
-        <label>
+        <label className="text-left">
           Vessel:
           <input
             type="text"
@@ -188,10 +223,11 @@ const FishingTripDetailsPage = () => {
             value={report.vessel}
             onChange={handleInputChange}
             placeholder="Enter vessel name"
+            className="font-normal"
           />
         </label>
 
-        <label>
+        <label className="text-left">
           Video URL:
           <input
             type="url"
@@ -199,10 +235,22 @@ const FishingTripDetailsPage = () => {
             value={report.videoURL}
             onChange={handleInputChange}
             placeholder="Enter video link"
+            className="font-normal"
           />
         </label>
 
-        <button type="submit">Save Report</button>
+        <label className="text-left">
+          Notes:
+          <textarea
+            name="notes"
+            value={report.notes}
+            onChange={handleInputChange}
+            placeholder="Enter any additional notes about your trip"
+            className="font-normal"
+          />
+        </label>
+
+        <button type="submit" disabled={isUpdating}>Save Report</button>
         <button type="button" onClick={onDelete} className="delete-button">Delete Trip</button>
       </form>
     </div>
