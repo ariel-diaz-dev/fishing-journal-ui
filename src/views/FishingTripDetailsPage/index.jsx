@@ -69,8 +69,6 @@ const FishingTripDetailsPage = () => {
     return <div>Error: {error.message}</div>
   };
 
-  console.log("Data: ", data);
-
   const onSaveReport = async () => {
     try {
       await updateTrip({

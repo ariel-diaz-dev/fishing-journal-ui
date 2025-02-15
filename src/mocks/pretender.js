@@ -2,6 +2,9 @@ import Pretender from 'pretender';
 import tackle from './tackle';
 import trip from './trip';
 import trips from './trips';
+import forecast from './forecast';
+import insights from './insights';
+
 
 export default function startMockServer() {
 
@@ -47,28 +50,11 @@ export default function startMockServer() {
     });
 
     this.get('http://localhost:4000/api/v1/forecast', () => {
-      return [200, { 'Content-Type': 'application/json' }, JSON.stringify({
-        temperature: 28,
-        windSpeed: 12,
-        windDirection: "NE",
-        tides: {
-          firstHigh: "05:45",
-          firstLow: "11:30",
-          secondHigh: "18:15",
-          secondLow: "00:20"
-        },
-        waterTemperature: 26,
-        conditions: "Sunny with occasional clouds"
-      })];
+      return [200, { 'Content-Type': 'application/json' }, JSON.stringify(forecast)];
     });
 
     this.get('http://localhost:4000/api/v1/insights', () => {
-      return [200, { 'Content-Type': 'application/json' }, JSON.stringify({
-        bestCatchingTimes: ["Dawn", "Dusk"],
-        popularSpecies: ["Snook", "Redfish", "Tarpon"],
-        successfulLures: ["Topwater Popper", "Soft Plastic Jerkbait"],
-        topLocations: ["Flamingo, Everglades"]
-      })];
+      return [200, { 'Content-Type': 'application/json' }, JSON.stringify(insights)];
     });
 
     // Add delay to simulate network latency

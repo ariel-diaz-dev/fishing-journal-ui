@@ -1,33 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
 import "./index.css";
 import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom"; // Ensure you're using React Router for navigation
+import { useNavigate } from "react-router-dom";
 import RedirectButton from "../../components/RedirectButton";
+import { 
+  useGetTripsQuery, 
+  useGetTackleQuery,
+  useGetInsightsQuery 
+} from "../../services/fishing-journal-api";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  
+  // Fetch data using RTK Query hooks
+  const { data: trips = [], isLoading: tripsLoading } = useGetTripsQuery();
+  const { data: tackle = [], isLoading: tackleLoading } = useGetTackleQuery();
+  const { data: insights, isLoading: insightsLoading } = useGetInsightsQuery();
 
-  // Example data for fishing trips, tackle, and analytics
-  const [fishingTrips] = useState([
-    { id: 1, location: "Flamingo", status: "In Progress", date: "1/20/2025" },
-    { id: 2, location: "Turkey Point", status: "Completed", date: "1/20/2025" },
-  ]);
+  if (tripsLoading || tackleLoading || insightsLoading) {
+    return <div>Loading...</div>;
+  }
 
-  const [tackle] = useState([
-    { id: 1, name: "Spinner Bait", quantity: 5 },
-    { id: 2, name: "Fishing Rod", quantity: 2 },
-    { id: 3, name: "Soft Plastic Lure", quantity: 10 },
-  ]);
-
-  const analytics = {
-    fishCaught: 120,
-    timeSinceLastTrip: "2 weeks",
-    mostUsedTackle: "Soft Plastic Lure",
-  };
+  console.log(insights);
 
   const redirectToFishingTripDetails = (tripId) => {
     navigate(`/trips/${tripId}`);
   }
+  
+  const recentTrips = [...trips]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 5);
+  
+  const recentTackle = tackle.slice(0, 3);
 
   return (
     <div className="landing-page">
@@ -41,11 +45,11 @@ const LandingPage = () => {
           </RedirectButton>
         </div>
         <ul className="fishing-trips-list">
-          {fishingTrips.map((trip) => (
+          {recentTrips.map((trip) => (
             <li
               key={trip.id}
               onClick={() => redirectToFishingTripDetails(trip.id)}
-              className={`trip-item cursor-pointer ${trip.status.toLowerCase()}`}>
+              className={`trip-item cursor-pointer ${trip.status?.toLowerCase()}`}>
               <span>{trip.date} | {trip.location}</span>
               <span className="trip-status">{trip.status}</span>
             </li>
@@ -61,7 +65,7 @@ const LandingPage = () => {
       <section className="section">
         <h2 className="text-left">Favorite Tackle</h2>
         <ul className="tackle-list">
-          {tackle.map((item) => (
+          {recentTackle.map((item) => (
             <li key={item.id} className="tackle-item">
               <span>{item.name}</span>
               <span>({item.quantity})</span>
@@ -81,19 +85,19 @@ const LandingPage = () => {
           <div className="analytics-item">
             <strong>Fish Caught:</strong>
             <p>
-              {analytics.fishCaught}
+              {insights?.fishCaught}
             </p>
           </div>
           <div className="analytics-item">
             <strong>Time Since Last Trip:</strong>
             <p>
-              {analytics.timeSinceLastTrip}
+              {insights?.timeSinceLastTrip}
             </p>
           </div>
           <div className="analytics-item">
             <strong>Most Used Tackle:</strong>
             <p>
-              {analytics.mostUsedTackle}
+              {insights?.mostUsedTackle}
             </p>
           </div>
         </div>
