@@ -3,15 +3,15 @@ import "./index.css";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import RedirectButton from "../../components/RedirectButton";
-import { 
-  useGetTripsQuery, 
+import {
+  useGetTripsQuery,
   useGetTackleQuery,
-  useGetInsightsQuery 
+  useGetInsightsQuery
 } from "../../services/fishing-journal-api";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  
+
   // Fetch data using RTK Query hooks
   const { data: trips = [], isLoading: tripsLoading } = useGetTripsQuery();
   const { data: tackle = [], isLoading: tackleLoading } = useGetTackleQuery();
@@ -26,16 +26,63 @@ const LandingPage = () => {
   const redirectToFishingTripDetails = (tripId) => {
     navigate(`/trips/${tripId}`);
   }
-  
+
   const recentTrips = [...trips]
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5);
-  
+
   const recentTackle = tackle.slice(0, 3);
 
   return (
     <div className="landing-page">
+
       <section className="section">
+        <div className="analytics">
+          <div className="analytics-item">
+            <strong>Average Fish Per Trip:</strong>
+            <p>{insights?.averageFishPerTrip}</p>
+          </div>
+          <div className="analytics-item">
+            <strong>Time Since Last Trip:</strong>
+            <p>{insights?.timeSinceLastTrip}</p>
+          </div>
+          <div className="analytics-item">
+            <strong>Most Used Tackle:</strong>
+            <p>{insights?.mostUsedTackle}</p>
+          </div>
+
+          <div className="analytics-item">
+            <strong>Top Performing Spots:</strong>
+            <p>{insights?.mostPopularLocation}</p>
+          </div>
+
+          <div className="analytics-item">
+            <strong>Best Lures:</strong>
+            <p>{insights?.mostSuccessfulLure}</p>
+            <ul>
+              {insights?.successfulLures.map(lure => (
+                <li key={lure}>{lure}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="analytics-item">
+            <strong>Record Catches:</strong>
+            <ul>
+              {insights?.recordCatches.map(fishCatch => (
+                <li key={fishCatch.species}>
+                  {fishCatch.species} - {fishCatch.length}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <hr />
+
+      <section className="section mt-4">
         <div className="section-header">
           <div className="header-container">
             <h2>Recent Trips</h2>
@@ -87,50 +134,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <section className="section analytics-section">
-        <h2 className="text-left">Insights</h2>
-        <div className="analytics">
-          <div className="analytics-item">
-            <strong>Average Fight Per Trip:</strong>
-            <p>{insights?.averageFishPerTrip}</p>
-          </div>
-          <div className="analytics-item">
-            <strong>Time Since Last Trip:</strong>
-            <p>{insights?.timeSinceLastTrip}</p>
-          </div>
-          <div className="analytics-item">
-            <strong>Most Used Tackle:</strong>
-            <p>{insights?.mostUsedTackle}</p>
-          </div>
-          
-          <div className="analytics-item">
-            <strong>Top Performing Spots:</strong>
-            <p>{insights?.mostPopularLocation}</p>
-          </div>
-          
-          <div className="analytics-item">
-            <strong>Best Lures:</strong>
-            <p>{insights?.mostSuccessfulLure}</p>
-            <ul>
-              {insights?.successfulLures.map(lure => (
-                <li key={lure}>{lure}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="analytics-item">
-            <strong>Record Catches:</strong>
-            <ul>
-              {insights?.recordCatches.map(fishCatch => (
-                <li key={fishCatch.species}>
-                  {fishCatch.species} - {fishCatch.length}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-        </div>
-      </section>
     </div>
   );
 };
