@@ -4,6 +4,7 @@ const tackle = [
       name: "7ft Medium Rod",
       type: "Rod",
       brand: "St. Croix",
+      model: "Avid Inshore",
       notes: "Perfect for inshore fishing"
     },
     {
@@ -11,6 +12,7 @@ const tackle = [
         name: "10ft Medium Rod",
         type: "Rod",
         brand: "St. Croix",
+        model: "Avid Inshore",
         notes: "Perfect for inshore fishing"
     },  
     {
@@ -18,6 +20,7 @@ const tackle = [
         name: "12ft Medium Rod",
         type: "Rod",
         brand: "St. Croix",
+        model: "Avid Inshore",
         notes: "Perfect for inshore fishing"
     }
   ];

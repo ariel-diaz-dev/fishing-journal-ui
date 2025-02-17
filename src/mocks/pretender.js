@@ -35,6 +35,14 @@ export default function startMockServer() {
       return [200, { 'Content-Type': 'application/json' }, JSON.stringify(tackle)];
     });
 
+    this.get('http://localhost:4000/api/v1/tackle/:id', (request) => {
+      const tackleItem = tackle.find(t => t.id === request.params.id);
+      if (tackleItem) {
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify(tackleItem)];
+      }
+      return [404, { 'Content-Type': 'application/json' }, JSON.stringify({ error: 'Tackle not found' })];
+    });
+
     this.post('http://localhost:4000/api/v1/tackle', (request) => {
       const newTackle = JSON.parse(request.requestBody);
       const tackleItem = { ...newTackle, id: `tackle-${Date.now()}` };
@@ -47,6 +55,15 @@ export default function startMockServer() {
       const index = tackle.findIndex(t => t.id === request.params.id);
       tackle[index] = { ...updatedTackle, id: request.params.id };
       return [200, { 'Content-Type': 'application/json' }, JSON.stringify(tackle[index])];
+    });
+
+    this.delete('http://localhost:4000/api/v1/tackle/:id', (request) => {
+      const index = tackle.findIndex(t => t.id === request.params.id);
+      if (index !== -1) {
+        tackle.splice(index, 1);
+        return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ message: 'Tackle deleted successfully' })];
+      }
+      return [404, { 'Content-Type': 'application/json' }, JSON.stringify({ error: 'Tackle not found' })];
     });
 
     this.get('http://localhost:4000/api/v1/forecast', () => {

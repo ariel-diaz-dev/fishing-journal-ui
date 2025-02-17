@@ -37,6 +37,15 @@ const fishingJournalApi = createApi({
                 body: newTackle,
             }),
         }),
+        getTackleById: builder.query({
+            query: (id) => `tackle/${id}`,
+        }),
+        deleteTackle: builder.mutation({
+            query: (id) => ({
+                url: `tackle/${id}`,
+                method: 'DELETE',
+            }),
+        }),
         updateTackle: builder.mutation({
             query: ({ id, ...updatedTackle }) => ({
                 url: `tackle/${id}`,
@@ -60,6 +69,8 @@ export const {
     useAddTackleMutation,
     useUpdateTackleMutation,
     useGetInsightsQuery,
+    useGetTackleByIdQuery,
+    useDeleteTackleMutation,
 } = fishingJournalApi;
 
 export default fishingJournalApi;
