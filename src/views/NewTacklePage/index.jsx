@@ -59,10 +59,11 @@ const NewTacklePage = () => {
                             <option value="-1">Select an option</option>
                             <option value="Rod">Rod</option>
                             <option value="Reel">Reel</option>
-                            <option value="Line">Line</option>
                             <option value="Lure">Lure</option>
+                            <option value="Line">Line</option>
                             <option value="Hook">Hook</option>
-                            <option value="Terminal Tackle">Terminal Tackle</option>
+                            <option value="Terminal Tackle">Popping Cork</option>
+                            <option value="Terminal Tackle">Other</option>
                         </select>
                     </label>
 

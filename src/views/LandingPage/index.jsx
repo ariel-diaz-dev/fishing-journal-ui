@@ -63,7 +63,14 @@ const LandingPage = () => {
       </section>
 
       <section className="section">
-        <h2 className="text-left">Most Used Tackle</h2>
+        <div className="section-header">
+          <div className="header-container">
+            <h2>Tackle</h2>
+          </div>
+          <RedirectButton to={"/new-tackle"}>
+            Add New Tackle
+          </RedirectButton>
+        </div>
         <ul className="tackle-list">
           {recentTackle.map((item) => (
             <li key={item.id} className="tackle-item">
@@ -81,7 +88,7 @@ const LandingPage = () => {
       </section>
 
       <section className="section analytics-section">
-        <h2>Fishing Insights</h2>
+        <h2 className="text-left">Insights</h2>
         <div className="analytics">
           <div className="analytics-item">
             <strong>Average Fight Per Trip:</strong>
