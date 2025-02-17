@@ -8,6 +8,8 @@ import FishingTripDetailsPage from "./views/FishingTripDetailsPage";
 import FishingTripListPage from "./views/FishingTripListPage";
 import Footer from "./components/Footer";
 import TackleListPage from "./views/TackleListPage";
+import NewTacklePage from "./views/NewTacklePage";
+
 function App() {
   return (
     <Router>
@@ -20,6 +22,7 @@ function App() {
             <Route path="/trips/:tripId" element={<FishingTripDetailsPage />} />
             <Route path="/trips" element={<FishingTripListPage />} />
             <Route path="/tackle" element={<TackleListPage />} />
+            <Route path="/new-tackle" element={<NewTacklePage />} />
             {/* Add more routes here as needed */}
           </Routes>
         </main>

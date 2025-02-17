@@ -100,7 +100,7 @@ const FishingTripDetailsPage = () => {
 
   return (
     <div className="details-page">
-      <h1 className="page-title">Fishing Trip Details</h1>
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">Fishing Trip Details</h2>
 
       {/* Trip Details */}
       <div className="trip-details text-left grid grid-cols-2 ">

@@ -63,12 +63,13 @@ const LandingPage = () => {
       </section>
 
       <section className="section">
-        <h2 className="text-left">Favorite Tackle</h2>
+        <h2 className="text-left">Most Used Tackle</h2>
         <ul className="tackle-list">
           {recentTackle.map((item) => (
             <li key={item.id} className="tackle-item">
+              <span>{item.type}</span>
+              <span>{item.brand}</span>
               <span>{item.name}</span>
-              <span>({item.quantity})</span>
             </li>
           ))}
         </ul>
@@ -83,23 +84,44 @@ const LandingPage = () => {
         <h2>Fishing Insights</h2>
         <div className="analytics">
           <div className="analytics-item">
-            <strong>Fish Caught:</strong>
-            <p>
-              {insights?.fishCaught}
-            </p>
+            <strong>Average Fight Per Trip:</strong>
+            <p>{insights?.averageFishPerTrip}</p>
           </div>
           <div className="analytics-item">
             <strong>Time Since Last Trip:</strong>
-            <p>
-              {insights?.timeSinceLastTrip}
-            </p>
+            <p>{insights?.timeSinceLastTrip}</p>
           </div>
           <div className="analytics-item">
             <strong>Most Used Tackle:</strong>
-            <p>
-              {insights?.mostUsedTackle}
-            </p>
+            <p>{insights?.mostUsedTackle}</p>
           </div>
+          
+          <div className="analytics-item">
+            <strong>Top Performing Spots:</strong>
+            <p>{insights?.mostPopularLocation}</p>
+          </div>
+          
+          <div className="analytics-item">
+            <strong>Best Lures:</strong>
+            <p>{insights?.mostSuccessfulLure}</p>
+            <ul>
+              {insights?.successfulLures.map(lure => (
+                <li key={lure}>{lure}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="analytics-item">
+            <strong>Record Catches:</strong>
+            <ul>
+              {insights?.recordCatches.map(fishCatch => (
+                <li key={fishCatch.species}>
+                  {fishCatch.species} - {fishCatch.length}
+                </li>
+              ))}
+            </ul>
+          </div>
+
         </div>
       </section>
     </div>
