@@ -11,14 +11,15 @@ import TackleListPage from "./views/TackleListPage";
 import NewTacklePage from "./views/NewTacklePage";
 import TackleDetailsPage from "./views/TackleDetailsPage";
 import LandingPage from "./views/LandingPage";
+import NotFoundPage from "./views/NotFoundPage";
 
 const AppContent = () => {
   const location = useLocation();
-  const isLandingPage = location.pathname === '/';
+  const displayNavAndFooter = location.pathname === '/';
 
   return (
     <div className="app">
-      {!isLandingPage && <TopNav />}
+      {!displayNavAndFooter && <TopNav />}
       <main className="app-content">
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -29,9 +30,10 @@ const AppContent = () => {
           <Route path="/tackle" element={<TackleListPage />} />
           <Route path="/new-tackle" element={<NewTacklePage />} />
           <Route path="/tackle/:tackleId" element={<TackleDetailsPage />} />
-        </Routes>
+          <Route path="*" element={<NotFoundPage />} />
+          </Routes>
       </main>
-      {!isLandingPage && <Footer />}
+      {!displayNavAndFooter && <Footer />}
     </div>
   );
 };
