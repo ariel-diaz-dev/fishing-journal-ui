@@ -1,17 +1,17 @@
 import React from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { signInWithGoogle } from '../../firebase/auth';
 import googleIcon from '../../images/google-icon.svg';
 import './index.css';
 
 const LandingPage = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
     try {
       // const result = await signInWithGoogle();
       // if (result.user) {
-      //   navigate('/dashboard');
+        navigate('/dashboard');
       // }
     } catch (error) {
       console.error('Error signing in with Google:', error);
