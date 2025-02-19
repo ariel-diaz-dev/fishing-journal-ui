@@ -1,0 +1,110 @@
+.landing-page {
+  font-family: 'Poppins', sans-serif;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.actions {
+  position: relative;
+}
+
+.action-dropdown {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.section h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #34495e;
+  vertical-align: bottom;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.fishing-trips-list,
+.tackle-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.trip-item,
+.tackle-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.trip-item:hover,
+.tackle-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.trip-item.in-progress {
+  background-color: #eaf6fe;
+  color: #3498db;
+}
+
+.trip-item.completed {
+  background-color: #f0f9e8;
+  color: #27ae60;
+}
+
+.analytics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.analytics-item {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 14px;
+}

@@ -1,110 +1,108 @@
-.landing-page {
-  font-family: 'Poppins', sans-serif;
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.header h1 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #2c3e50;
-}
-
-.actions {
-  position: relative;
-}
-
-.action-dropdown {
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  cursor: pointer;
-}
-
-.section {
-  margin-bottom: 30px;
-}
-
-.section-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  padding-bottom: 5px;
-}
-
-.section h2 {
-  font-size: 20px;
-  font-weight: 500;
-  color: #34495e;
-  vertical-align: bottom;
-}
-
-.header-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-}
-
-.fishing-trips-list,
-.tackle-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.trip-item,
-.tackle-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.trip-item:hover,
-.tackle-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-.trip-item.in-progress {
-  background-color: #eaf6fe;
-  color: #3498db;
-}
-
-.trip-item.completed {
-  background-color: #f0f9e8;
-  color: #27ae60;
-}
-
-.analytics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.analytics-item {
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  text-align: center;
-  font-size: 14px;
-}
+.landing-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../../images/landing-page-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+  }
+  
+  .landing-content {
+    max-width: 900px;
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .landing-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .landing-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 50px;
+  }
+  
+  .features-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin: 50px 0;
+  }
+  
+  .feature-item {
+    padding: 20px;
+    border-radius: 12px;
+    background: #f8fafc;
+    transition: transform 0.3s ease;
+  }
+  
+  .feature-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .feature-item h3 {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  
+  .feature-item p {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .google-signin-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+  }
+  
+  .google-signin-button:hover {
+    background: #f5f5f5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .google-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  @media (max-width: 768px) {
+    .features-section {
+      grid-template-columns: 1fr;
+    }
+    
+    .landing-content {
+      padding: 20px;
+    }
+    
+    .landing-title {
+      font-size: 2.5rem;
+    }
+  }

@@ -75,7 +75,7 @@ const FishingTripDetailsPage = () => {
         id: "trip-001",
         ...report
       }).unwrap();
-      navigate("/");
+      navigate("/dashboard");
       window.scrollTo(0, 0);
     } catch (err) {
       console.error('Failed to save trip:', err);
