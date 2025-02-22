@@ -12,6 +12,7 @@ import NewTacklePage from "./views/NewTacklePage";
 import TackleDetailsPage from "./views/TackleDetailsPage";
 import LandingPage from "./views/LandingPage";
 import NotFoundPage from "./views/NotFoundPage";
+import ErrorPage from "./views/ErrorPage";
 
 const AppContent = () => {
   const location = useLocation();
@@ -31,6 +32,7 @@ const AppContent = () => {
           <Route path="/new-tackle" element={<NewTacklePage />} />
           <Route path="/tackle/:tackleId" element={<TackleDetailsPage />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/error" element={<ErrorPage />} />
           </Routes>
       </main>
       {!displayNavAndFooter && <Footer />}
