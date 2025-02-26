@@ -104,7 +104,6 @@ const FishingTripDetailsPage = () => {
 
   const renderTackleSelect = () => (
     <div className="tackle-select-container">
-      <label className="text-left">Tackle:</label>
       <div className="tackle-grid">
         
         <div className="available-tackle">
