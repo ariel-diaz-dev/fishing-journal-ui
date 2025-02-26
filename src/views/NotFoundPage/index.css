@@ -43,7 +43,3 @@
     transition: all 0.3s ease;
   }
   
-  .return-button:hover {
-    background: #34495e;
-    transform: translateY(-2px);
-  }

@@ -48,21 +48,8 @@
     cursor: pointer;
   }
   
-  button[type="submit"] {
-    background-color: #3498db;
-    color: #fff;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #2980b9;
-  }
-  
   .delete-button {
     background-color: #e74c3c;
     color: #fff;
-  }
-  
-  .delete-button:hover {
-    background-color: #c0392b;
   }
   

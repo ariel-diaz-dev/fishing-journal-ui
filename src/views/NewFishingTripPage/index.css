@@ -83,8 +83,8 @@
     cursor: pointer;
     transition: background-color 0.3s;
   }
-  
-  .new-fishing-trip-form button:hover {
-    background-color: #2980b9;
+
+  .new-fishing-trip-form button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
-  

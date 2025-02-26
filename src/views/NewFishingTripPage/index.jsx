@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Ensure you're using React Router for navigation
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 import NewFishingTripTabs from "../../components/NewFishingTripTabs";
 import useLocation from "../../hooks/useLocation";
+import { useAddTripMutation } from "../../services/fishing-journal-api";
 
 const NewFishingTripPage = () => {
     const navigate = useNavigate();
+    const [addTrip, { isLoading }] = useAddTripMutation();
     const {
         locations,
         setLocationByName,
@@ -32,18 +34,34 @@ const NewFishingTripPage = () => {
         setTripDetails({ ...tripDetails, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting trip -> ", tripDetails);
-        setLocationByName(defaultLocationName);
-        // Reset form to default
-        setTripDetails({
-            date: "",
-            locationName: defaultLocationName,
-            arrivalTime: "",
-            notes: "",
-        });
-        navigate('/');
+        try {
+            // Format the date and time for the API
+            const formattedTrip = {
+                location: tripDetails.locationName,
+                date: tripDetails.date,
+                arrivalTime: `${tripDetails.date}T${tripDetails.arrivalTime}:00.000Z`,
+                notes: tripDetails.notes,
+                status: "Planned"
+            };
+
+            await addTrip(formattedTrip).unwrap();
+            
+            // Reset form and location
+            setLocationByName(defaultLocationName);
+            setTripDetails({
+                date: "",
+                locationName: defaultLocationName,
+                arrivalTime: "",
+                notes: "",
+            });
+            
+            navigate('/dashboard');
+        } catch (err) {
+            console.error('Failed to save trip:', err);
+            // Here you might want to add error handling UI feedback
+        }
     };
 
     return (
@@ -101,7 +119,15 @@ const NewFishingTripPage = () => {
                             className="form-textarea"
                         ></textarea>
                     </label>
-                    <button type="submit" className="form-button">Save Trip</button>
+                    <span className="flex-1">
+                    </span>
+                    <button 
+                        type="submit" 
+                        className="form-button"
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Saving trip...' : 'Save Trip'}
+                    </button>
                 </form>
                 <div>
                     <NewFishingTripTabs location={selectedLocation} />

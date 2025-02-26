@@ -23,15 +23,6 @@
     transition: background-color 0.3s;
   }
   
-  .save-button:hover {
-    background-color: #2980b9;
-  }
-  
-  .save-button:disabled {
-    background-color: #95a5a6;
-    cursor: not-allowed;
-  }
-  
   .delete-button {
     flex: 1;
     padding: 12px;
@@ -45,6 +36,3 @@
     transition: background-color 0.3s;
   }
   
-  .delete-button:hover {
-    background-color: #c0392b;
-  }

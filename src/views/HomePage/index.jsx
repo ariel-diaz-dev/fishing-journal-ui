@@ -21,8 +21,6 @@ const HomePage = () => {
     return <div>Loading...</div>;
   }
 
-  console.log(insights);
-
   const redirectToFishingTripDetails = (tripId) => {
     navigate(`/trips/${tripId}`);
   }

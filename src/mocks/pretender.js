@@ -17,10 +17,11 @@ export default function startMockServer() {
       return [200, { 'Content-Type': 'application/json' }, JSON.stringify(trip)];
     });
 
-    this.post('http://localhost:4000/api/v1/trips', (request) => {
+    this.post('http://localhost:4000/api/v1/trips', async (request) => {
       const newTrip = JSON.parse(request.requestBody);
       const trip = { ...newTrip, id: `trip-${Date.now()}` };
       trips.push(trip);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       return [201, { 'Content-Type': 'application/json' }, JSON.stringify(trip)];
     });
 

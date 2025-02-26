@@ -1,7 +1,71 @@
-h3 {
-    font-size: large;
-}
-
-.widget-section {
-    margin-bottom: 20px;
-}
+.forecast-widget {
+    padding: 20px;
+  }
+  
+  .widget-section {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .widget-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  
+  .widget-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 16px;
+  }
+  
+  .forecast-content {
+    padding: 8px;
+  }
+  
+  .forecast-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .forecast-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .label {
+    color: #666;
+    font-size: 0.9rem;
+  }
+  
+  .value {
+    font-weight: 500;
+    color: #2c3e50;
+  }
+  
+  .temp-large {
+    display: block;
+  }
+  
+  .tide-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .tide-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .tide-item .label {
+    font-size: 0.8rem;
+  }
+  
+  .tide-item .value {
+    font-size: 1.1rem;
+  }

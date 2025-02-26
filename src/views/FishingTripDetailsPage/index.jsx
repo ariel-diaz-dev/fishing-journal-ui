@@ -89,7 +89,6 @@ const FishingTripDetailsPage = () => {
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(`Updating ${name} to ${value}`);
     setReport({ ...report, [name]: value });
   };
 

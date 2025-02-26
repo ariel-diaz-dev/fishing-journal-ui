@@ -83,11 +83,6 @@
     margin: 0 auto;
   }
   
-  .google-signin-button:hover {
-    background: #f5f5f5;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
   .google-icon {
     width: 24px;
     height: 24px;
