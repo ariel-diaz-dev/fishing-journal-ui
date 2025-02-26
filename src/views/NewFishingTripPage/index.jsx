@@ -46,7 +46,7 @@ const NewFishingTripPage = () => {
                 status: "Planned"
             };
 
-            await addTrip(formattedTrip).unwrap();
+            const { id: newTripId } = await addTrip(formattedTrip).unwrap();
             
             // Reset form and location
             setLocationByName(defaultLocationName);
@@ -56,8 +56,8 @@ const NewFishingTripPage = () => {
                 arrivalTime: "",
                 notes: "",
             });
-            
-            navigate('/dashboard');
+
+            navigate(`/trips/${newTripId}`);
         } catch (err) {
             console.error('Failed to save trip:', err);
             // Here you might want to add error handling UI feedback

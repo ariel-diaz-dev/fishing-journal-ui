@@ -25,6 +25,10 @@ const HomePage = () => {
     navigate(`/trips/${tripId}`);
   }
 
+  const redirectToTackleDetails = (tackleId) => {
+    navigate(`/tackle/${tackleId}`);
+  }
+
   const recentTrips = [...trips]
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 5);
@@ -118,7 +122,11 @@ const HomePage = () => {
         </div>
         <ul className="tackle-list">
           {recentTackle.map((item) => (
-            <li key={item.id} className="tackle-item">
+            <li 
+              key={item.id} 
+              className="tackle-item cursor-pointer"
+              onClick={() => redirectToTackleDetails(item.id)}
+            >
               <span>{item.type}</span>
               <span>{item.brand}</span>
               <span>{item.name}</span>
