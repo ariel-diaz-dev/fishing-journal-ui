@@ -15,8 +15,7 @@ const trip = {
     temperature: 28,
     speciesCaught: "Snook, Redfish, Tarpon",
     weatherConditions: "Sunny with occasional clouds. Light breeze throughout the day.",
-    lures: "Topwater Popper, Soft Plastic Jerkbait",
-    gear: "Medium-action rod, spinning reel, braided line",
+    tackle: ["tackle-002", "tackle-003", "tackle-004"],
     videoURL: "https://www.youtube.com/watch?v=example",
     vessel: "Hobie Outback Kayak",
     status: "Completed"

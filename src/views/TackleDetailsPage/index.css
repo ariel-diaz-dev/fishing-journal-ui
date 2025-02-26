@@ -4,13 +4,13 @@
     padding: 20px;
   }
   
-  .button-group {
+  .tackle-details-page .button-group {
     display: flex;
     gap: 10px;
     margin-top: 20px;
   }
   
-  .save-button {
+  .tackle-details-page .save-button {
     flex: 2;
     padding: 12px;
     background-color: #3498db;
@@ -23,7 +23,7 @@
     transition: background-color 0.3s;
   }
   
-  .delete-button {
+  .tackle-details-page .delete-button {
     flex: 1;
     padding: 12px;
     background-color: #e74c3c;

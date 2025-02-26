@@ -104,8 +104,9 @@ const NewTacklePage = () => {
 
                 <button
                     type="submit"
-                    className="mt-4"
-                    disabled={isLoading}>
+                    className="save-button mt-4"
+                    disabled={isLoading}
+                    aria-label="Save new tackle">
                     {isLoading ? "Saving..." : "Save Tackle"}
                 </button>
             </form>

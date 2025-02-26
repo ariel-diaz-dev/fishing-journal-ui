@@ -23,7 +23,7 @@ const LandingPage = () => {
       <div className="landing-content">
         <h1 className="landing-title">Fishing Journal</h1>
         <p className="landing-subtitle">
-          Your personal fishing companion for tracking fishing trips, gear, and insights!
+          Your personal fishing companion for tracking fishing trips, tackle, and insights!
         </p>
         
         <div className="features-section">

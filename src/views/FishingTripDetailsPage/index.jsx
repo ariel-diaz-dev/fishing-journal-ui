@@ -5,41 +5,39 @@ import Map from "../../components/Map";
 import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
-  useUpdateTripMutation
+  useUpdateTripMutation,
+  useGetTackleQuery
 } from "../../services/fishing-journal-api";
 
 import "./index.css";
 
 const FishingTripDetailsPage = () => {
   const navigate = useNavigate();
-
+  const { data: tackle } = useGetTackleQuery();
   const [updateTrip, { isLoading: isUpdating }] = useUpdateTripMutation();
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
 
-  const [report, setReport] = useState(
-    {
-      id: "",
-      location: "",
-      notes: "",
-      date: moment().format("YYYY-MM-DD"),
-      arrivalTime: moment().format(),
-      departureTime: moment().format(),
-      firstHighTide: moment().format(),
-      firstLowTide: moment().format(),
-      secondHighTide: moment().format(),
-      secondLowTide: moment().format(),
-      waterTemperature: 0,
-      windSpeed: 0,
-      windDirection: "",
-      temperature: 0,
-      speciesCaught: "",
-      weatherConditions: "",
-      lures: "",
-      gear: "",
-      videoURL: "",
-      vessel: ""
-    }
-  );
+  const [report, setReport] = useState({
+    id: "",
+    location: "",
+    notes: "",
+    date: moment().format("YYYY-MM-DD"),
+    arrivalTime: moment().format(),
+    departureTime: moment().format(),
+    firstHighTide: moment().format(),
+    firstLowTide: moment().format(),
+    secondHighTide: moment().format(),
+    secondLowTide: moment().format(),
+    waterTemperature: 0,
+    windSpeed: 0,
+    windDirection: "",
+    temperature: 0,
+    speciesCaught: "",
+    weatherConditions: "",
+    tackle: [],
+    videoURL: "",
+    vessel: ""
+  });
 
   const {
     setLocationByName,
@@ -89,13 +87,81 @@ const FishingTripDetailsPage = () => {
   // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setReport({ ...report, [name]: value });
+    if (name === "tackle") {
+      // Handle multiple select
+      const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+      setReport({ ...report, tackle: selectedOptions });
+    } else {
+      setReport({ ...report, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSaveReport(report);
+    console.log(report)
+    onSaveReport();
   };
+
+  const renderTackleSelect = () => (
+    <div className="tackle-select-container">
+      <label className="text-left">Tackle:</label>
+      <div className="tackle-grid">
+        
+        <div className="available-tackle">
+          <h3>Available Tackle:</h3>
+          <div className="tackle-cards">
+            {tackle?.filter(item => !report.tackle.includes(item.id)).map(item => (
+              <div
+                key={item.id}
+                className="tackle-card"
+                onClick={() => {
+                  const newTackle = [...report.tackle, item.id];
+                  setReport({ ...report, tackle: newTackle });
+                }}
+              >
+                <div className="tackle-card-content">
+                  <span className="tackle-name">{item.name}</span>
+                  <span className="tackle-details">{item.brand}</span>
+                  <span className="tackle-type">{item.type}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {report.tackle.length > 0 && (
+          <div className="selected-tackle">
+            <h3>Selected Tackle:</h3>
+            <div className="tackle-tags">
+              {report.tackle.map(tackleId => {
+                const item = tackle?.find(t => t.id === tackleId);
+                if (!item) return null;
+                return (
+                  <div key={item.id} className="tackle-tag">
+                    <span className="tackle-tag-content">
+                      <span className="tackle-name">{item.name}</span>
+                      <span className="tackle-details">{item.brand} ({item.type})</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newTackle = report.tackle.filter(id => id !== item.id);
+                        setReport({ ...report, tackle: newTackle });
+                      }}
+                      className="remove-tag"
+                      aria-label={`Remove ${item.name}`}
+                    >
+                      ×
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div className="details-page">
@@ -190,27 +256,7 @@ const FishingTripDetailsPage = () => {
           />
         </label>
 
-        <label className="text-left">
-          Gear:
-          <textarea
-            name="gear"
-            value={report.gear}
-            onChange={handleInputChange}
-            placeholder="e.g 7 ft Saint Croix Rod, 3000 Reel, 15 lb Line ..."
-            className="font-normal"
-          />
-        </label>
-
-        <label className="text-left">
-          Lures Used:
-          <textarea
-            name="lures"
-            value={report.lures}
-            onChange={handleInputChange}
-            placeholder="e.g Topwater Popper, Soft Plastic Jerkbait, etc ..."
-            className="font-normal"
-          />
-        </label>
+        {renderTackleSelect()}
 
         <label className="text-left">
           Vessel:
