@@ -24,6 +24,12 @@ const fishingJournalApi = createApi({
                 body: updatedTrip,
             }),
         }),
+        deleteTrip: builder.mutation({
+            query: (id) => ({
+                url: `trips/${id}`,
+                method: 'DELETE',
+            }),
+        }),
         getForecast: builder.query({
             query: () => 'forecast',
         }),
@@ -64,6 +70,7 @@ export const {
     useGetTripByIdQuery,
     useAddTripMutation,
     useUpdateTripMutation,
+    useDeleteTripMutation,
     useGetForecastQuery,
     useGetTackleQuery,
     useAddTackleMutation,

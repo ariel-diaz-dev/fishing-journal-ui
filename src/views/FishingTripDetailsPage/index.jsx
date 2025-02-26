@@ -6,6 +6,7 @@ import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
   useUpdateTripMutation,
+  useDeleteTripMutation,
   useGetTackleQuery
 } from "../../services/fishing-journal-api";
 
@@ -15,6 +16,7 @@ const FishingTripDetailsPage = () => {
   const navigate = useNavigate();
   const { data: tackle } = useGetTackleQuery();
   const [updateTrip, { isLoading: isUpdating }] = useUpdateTripMutation();
+  const [deleteTrip] = useDeleteTripMutation();
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
 
   const [report, setReport] = useState({
@@ -80,9 +82,17 @@ const FishingTripDetailsPage = () => {
     }
   }
 
-  const onDelete = () => {
-    alert("Deleted trip ...");
-  }
+  const onDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this trip?")) {
+      try {
+        await deleteTrip("trip-001").unwrap();
+        navigate("/dashboard");
+        window.scrollTo(0, 0);
+      } catch (err) {
+        console.error('Failed to delete trip:', err);
+      }
+    }
+  };
 
   // Handle form input changes
   const handleInputChange = (e) => {

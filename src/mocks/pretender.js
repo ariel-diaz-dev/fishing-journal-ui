@@ -32,6 +32,10 @@ export default function startMockServer() {
       return [200, { 'Content-Type': 'application/json' }, JSON.stringify(trips[index])];
     });
 
+    this.delete('http://localhost:4000/api/v1/trips/:id', (request) => {
+      return [200, { 'Content-Type': 'application/json' }, JSON.stringify({ message: 'Trip deleted successfully' })];
+    });
+
     this.get('http://localhost:4000/api/v1/tackle', () => {
       return [200, { 'Content-Type': 'application/json' }, JSON.stringify(tackle)];
     });
