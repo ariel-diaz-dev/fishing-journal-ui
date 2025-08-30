@@ -115,7 +115,7 @@ const FishingTripDetailsPage = () => {
   const renderTackleSelect = () => (
     <div className="tackle-select-container">
       <div className="tackle-grid">
-        
+
         <div className="available-tackle">
           <h3>Available Tackle:</h3>
           <div className="tackle-cards">
@@ -160,7 +160,7 @@ const FishingTripDetailsPage = () => {
                       aria-label={`Remove ${item.name}`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="red" strokeWidth="2" width="18px" height="18px">
-                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"/>
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" />
                       </svg>
                     </button>
                   </div>
@@ -175,7 +175,7 @@ const FishingTripDetailsPage = () => {
 
   return (
     <div className="details-page">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Fishing Trip Details</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Fishing Trip Details</h2>
 
       {/* Trip Details */}
       <div className="trip-details text-left grid grid-cols-2 ">
@@ -291,6 +291,8 @@ const FishingTripDetailsPage = () => {
             className="font-normal"
           />
         </label>
+
+        {/* TODO: Add Retro Style Note Default: What went well/poorly? Action items? */}
 
         <label className="text-left">
           Notes:
