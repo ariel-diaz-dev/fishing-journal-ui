@@ -43,14 +43,15 @@ const FishingTripDetailsPage = () => {
 
   const {
     setLocationByName,
-    selectedLocation
+    selectedLocation,
+    locations
   } = useLocation();
 
   useEffect(() => {
     if (!isLoading && data) {
       const formattedData = {
         ...data,
-        date: moment(data.date).format("MMM. D, YYYY"),
+        date: moment(data.date).format("YYYY-MM-DD"),
         arrivalTime: moment(data.arrivalTime).format("hh:mm"),
         departureTime: moment(data.departureTime).format("hh:mm"),
         firstHighTide: moment(data.firstHighTide).format("h:mm A"),
@@ -101,6 +102,9 @@ const FishingTripDetailsPage = () => {
       // Handle multiple select
       const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
       setReport({ ...report, tackle: selectedOptions });
+    } else if (name === "location") {
+      setReport({ ...report, location: value });
+      setLocationByName(value);
     } else {
       setReport({ ...report, [name]: value });
     }
@@ -175,25 +179,67 @@ const FishingTripDetailsPage = () => {
 
   return (
     <div className="details-page">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Fishing Trip Details</h2>
+      <h2 className="text-2xl font-bold mb-10 text-gray-800">Fishing Report</h2>
 
       {/* Trip Details */}
       <div className="trip-details text-left grid grid-cols-2 ">
-        <div className="pt-2 pl-5 pr-5">
-          <p><strong>Location:</strong> {report.location}</p>
-          <p><strong>Date:</strong> {report.date}</p>
-          <p><strong>Water Temperature:</strong> {report.waterTemperature}°F</p>
-          <p><strong>Weather Forecast:</strong> {report.temperature}°F, {report.wind} mph ({report.windDirection})</p>
-          <p><strong>Tides:</strong> &#9660;{report.firstLowTide} &#9650;{report.firstHighTide} &#9660;{report.secondLowTide} &#9650;{report.secondHighTide} </p>
+        <div className="pr-5">
+          <label className="text-left">
+            <strong>Location:</strong>
+            <select
+              name="location"
+              value={report.location}
+              onChange={handleInputChange}
+              className="w-full font-normal mt-1"
+            >
+              {locations.map(location => (
+                <option key={location.name} value={location.name}>
+                  {location.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="text-left mt-4">
+            <strong>Date:</strong>
+            <input
+              type="date"
+              name="date"
+              value={report.date}
+              onChange={handleInputChange}
+              className="w-full font-normal mt-1"
+            />
+          </label>
+          <label className="flex-1 text-left">
+            Arrival Time:
+            <input
+              type="time"
+              name="arrivalTime"
+              value={report.arrivalTime}
+              onChange={handleInputChange}
+              className="w-full font-normal"
+            />
+          </label>
+          <label className="flex-1 text-left">
+            Departure Time:
+            <input
+              type="time"
+              name="departureTime"
+              value={report.departureTime}
+              onChange={handleInputChange}
+              className="w-full font-normal"
+            />
+          </label>
         </div>
-        <div>
+        <div className="pt-8">
           <Map
             location={selectedLocation.coordinates}
             options={{
               mapContainerStyle: {
-                height: "300px",
+                height: "320px",
                 width: "100%",
+                borderTopLeftRadius: "8px",
                 borderTopRightRadius: "8px",
+                borderBottomLeftRadius: "8px",
                 borderBottomRightRadius: "8px",
                 boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
               },
@@ -220,30 +266,6 @@ const FishingTripDetailsPage = () => {
 
       {/* Fishing Report Form */}
       <form className="report-form" onSubmit={handleSubmit}>
-        <div className="flex gap-4 w-full">
-          <label className="flex-1 text-left">
-            Arrival Time:
-            <input
-              type="time"
-              name="arrivalTime"
-              value={report.arrivalTime}
-              onChange={handleInputChange}
-              className="w-full font-normal"
-            />
-          </label>
-
-          <label className="flex-1 text-left">
-            Departure Time:
-            <input
-              type="time"
-              name="departureTime"
-              value={report.departureTime}
-              onChange={handleInputChange}
-              className="w-full font-normal"
-            />
-          </label>
-        </div>
-
         <label className="text-left">
           Species Caught:
           <textarea
@@ -254,7 +276,6 @@ const FishingTripDetailsPage = () => {
             className="font-normal"
           />
         </label>
-
         <label className="text-left">
           Weather Conditions:
           <textarea
