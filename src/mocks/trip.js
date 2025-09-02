@@ -14,7 +14,7 @@ const trip = {
     windDirection: "NE",
     temperature: 28,
     speciesCaught: "Snook, Redfish, Tarpon",
-    weatherConditions: "Sunny with occasional clouds. Light breeze throughout the day.",
+    weatherConditions: ["Sunny", "Windy"],
     tackle: ["tackle-002", "tackle-003", "tackle-004"],
     videoURL: "https://www.youtube.com/watch?v=example",
     vessel: "Hobie Outback Kayak",

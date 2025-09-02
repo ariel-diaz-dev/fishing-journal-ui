@@ -18,6 +18,7 @@ const FishingTripDetailsPage = () => {
   const [updateTrip, { isLoading: isUpdating }] = useUpdateTripMutation();
   const [deleteTrip] = useDeleteTripMutation();
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
+  const weatherConditions = ['Windy', 'Cloudy', 'Sunny', 'Hot', 'VeryHot', 'Cold', 'VeryCold', 'Rainy', 'Foggy', 'Stormy', 'StrongCurrent', 'Other'];
 
   const [report, setReport] = useState({
     id: "",
@@ -35,10 +36,9 @@ const FishingTripDetailsPage = () => {
     windDirection: "",
     temperature: 0,
     speciesCaught: "",
-    weatherConditions: "",
+    weatherConditions: [],
     tackle: [],
-    videoURL: "",
-    vessel: ""
+    videoURL: ""
   });
 
   const {
@@ -107,6 +107,23 @@ const FishingTripDetailsPage = () => {
       setLocationByName(value);
     } else {
       setReport({ ...report, [name]: value });
+    }
+  };
+
+  const handleWeatherConditionChange = (condition) => {
+    const currentConditions = report.weatherConditions || [];
+    if (currentConditions.includes(condition)) {
+      // Remove condition if already selected
+      setReport({
+        ...report,
+        weatherConditions: currentConditions.filter(c => c !== condition)
+      });
+    } else {
+      // Add condition if not selected
+      setReport({
+        ...report,
+        weatherConditions: [...currentConditions, condition]
+      });
     }
   };
 
@@ -276,30 +293,55 @@ const FishingTripDetailsPage = () => {
             className="font-normal"
           />
         </label>
-        <label className="text-left">
-          Weather Conditions:
-          <textarea
-            name="weatherConditions"
-            value={report.weatherConditions}
-            onChange={handleInputChange}
-            placeholder="How did you find the weather?"
-            className="font-normal"
-          />
-        </label>
+        <div className="text-left">
+          <strong>Weather Conditions:</strong>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+            gap: '12px',
+            marginTop: '12px'
+          }}>
+            {weatherConditions.map(condition => (
+              <div
+                key={condition}
+                onClick={() => handleWeatherConditionChange(condition)}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '120px',
+                  height: '80px',
+                  backgroundColor: report.weatherConditions.includes(condition) ? '#24b158ff' : '#f3f4f6',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  padding: '8px',
+                  transition: 'all 0.2s ease',
+                  userSelect: 'none'
+                }}
+              >
+                <span style={{
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  color: report.weatherConditions.includes(condition) ? 'white' : '#374151',
+                  textAlign: 'center',
+                  marginBottom: '8px'
+                }}>
+                  {condition === 'VeryHot' ? 'Very Hot' : condition === 'VeryCold' ? 'Very Cold' : condition === 'StrongCurrent' ? 'Strong Current' : condition}
+                </span>
+                <input
+                  type="checkbox"
+                  checked={report.weatherConditions.includes(condition)}
+                  onChange={() => handleWeatherConditionChange(condition)}
+                  style={{ pointerEvents: 'none' }}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
 
         {renderTackleSelect()}
-
-        <label className="text-left">
-          Vessel:
-          <input
-            type="text"
-            name="vessel"
-            value={report.vessel}
-            onChange={handleInputChange}
-            placeholder="Enter vessel name"
-            className="font-normal"
-          />
-        </label>
 
         <label className="text-left">
           Video URL:
