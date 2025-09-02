@@ -29,8 +29,8 @@ const LandingPage = () => {
         <div className="features-section">
           <div className="feature-item">
             <i className="feature-icon">🛶</i>
-            <h3>Trip Planning</h3>
-            <p>Plan fishing trips with detailed weather and tide information</p>
+            <h3>Fishing Reports</h3>
+            <p>Log detailed reports for your fishing trips</p>
           </div>
           <div className="feature-item">
             <i className="feature-icon">🎣</i>
