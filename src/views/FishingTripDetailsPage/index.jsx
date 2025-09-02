@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import Map from "../../components/Map";
+import MultiCheckboxes from "../../components/MultiCheckboxes";
 import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
@@ -110,20 +111,23 @@ const FishingTripDetailsPage = () => {
     }
   };
 
-  const handleWeatherConditionChange = (condition) => {
-    const currentConditions = report.weatherConditions || [];
-    if (currentConditions.includes(condition)) {
-      // Remove condition if already selected
-      setReport({
-        ...report,
-        weatherConditions: currentConditions.filter(c => c !== condition)
-      });
-    } else {
-      // Add condition if not selected
-      setReport({
-        ...report,
-        weatherConditions: [...currentConditions, condition]
-      });
+  const handleWeatherConditionsChange = (newConditions) => {
+    setReport({
+      ...report,
+      weatherConditions: newConditions
+    });
+  };
+
+  const getWeatherDisplayName = (condition) => {
+    switch (condition) {
+      case 'VeryHot':
+        return 'Very Hot';
+      case 'VeryCold':
+        return 'Very Cold';
+      case 'StrongCurrent':
+        return 'Strong Current';
+      default:
+        return condition;
     }
   };
 
@@ -293,53 +297,13 @@ const FishingTripDetailsPage = () => {
             className="font-normal"
           />
         </label>
-        <div className="text-left">
-          <strong>Weather Conditions:</strong>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-            gap: '12px',
-            marginTop: '12px'
-          }}>
-            {weatherConditions.map(condition => (
-              <div
-                key={condition}
-                onClick={() => handleWeatherConditionChange(condition)}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '120px',
-                  height: '80px',
-                  backgroundColor: report.weatherConditions.includes(condition) ? '#24b158ff' : '#f3f4f6',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  padding: '8px',
-                  transition: 'all 0.2s ease',
-                  userSelect: 'none'
-                }}
-              >
-                <span style={{
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: report.weatherConditions.includes(condition) ? 'white' : '#374151',
-                  textAlign: 'center',
-                  marginBottom: '8px'
-                }}>
-                  {condition === 'VeryHot' ? 'Very Hot' : condition === 'VeryCold' ? 'Very Cold' : condition === 'StrongCurrent' ? 'Strong Current' : condition}
-                </span>
-                <input
-                  type="checkbox"
-                  checked={report.weatherConditions.includes(condition)}
-                  onChange={() => handleWeatherConditionChange(condition)}
-                  style={{ pointerEvents: 'none' }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        <MultiCheckboxes
+          label="Weather Conditions"
+          options={weatherConditions}
+          selectedValues={report.weatherConditions || []}
+          onChange={handleWeatherConditionsChange}
+          getDisplayName={getWeatherDisplayName}
+        />
 
         {renderTackleSelect()}
 
