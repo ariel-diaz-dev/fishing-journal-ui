@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/D:\\Projects\\fishing-journal-ui\\src\\views\\FishingTripDetailsPage/**)",
+      "Read(/D:\\Projects\\fishing-journal-ui\\src\\components\\TidesWidget/**)",
+      "Read(/D:\\Projects\\fishing-journal-ui/**)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm install:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

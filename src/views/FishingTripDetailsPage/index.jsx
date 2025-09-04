@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import Map from "../../components/Map";
 import MultiCheckboxes from "../../components/MultiCheckboxes";
+import TidesWidget from "../../components/TidesWidget";
 import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
@@ -28,10 +29,28 @@ const FishingTripDetailsPage = () => {
     date: moment().format("YYYY-MM-DD"),
     arrivalTime: moment().format(),
     departureTime: moment().format(),
-    firstHighTide: moment().format(),
-    firstLowTide: moment().format(),
-    secondHighTide: moment().format(),
-    secondLowTide: moment().format(),
+    tides: {
+      first: {
+        high: {
+          time: moment().format(),
+          height: 0
+        },
+        low: {
+          time: moment().format(),
+          height: 0
+        }
+      },
+      second: {
+        high: {
+          time: moment().format(),
+          height: 0
+        },
+        low: {
+          time: moment().format(),
+          height: 0
+        }
+      }
+    },
     waterTemperature: 0,
     windSpeed: 0,
     windDirection: "",
@@ -55,10 +74,28 @@ const FishingTripDetailsPage = () => {
         date: moment(data.date).format("YYYY-MM-DD"),
         arrivalTime: moment(data.arrivalTime).format("hh:mm"),
         departureTime: moment(data.departureTime).format("hh:mm"),
-        firstHighTide: moment(data.firstHighTide).format("h:mm A"),
-        firstLowTide: moment(data.firstLowTide).format("h:mm A"),
-        secondHighTide: moment(data.secondHighTide).format("h:mm A"),
-        secondLowTide: moment(data.secondLowTide).format("h:mm A")
+        tides: {
+          first: {
+            high: {
+              time: moment(data.firstHighTideTime).format("h:mm A"),
+              height: data.firstHighTideHeight
+            },
+            low: {
+              time: moment(data.firstLowTideTime).format("h:mm A"),
+              height: data.firstLowTideHeight
+            }
+          },
+          second: {
+            high: {
+              time: moment(data.secondHighTideTime).format("h:mm A"),
+              height: data.secondHighTideHeight
+            },
+            low: {
+              time: moment(data.secondLowTideTime).format("h:mm A"),
+              height: data.secondLowTideHeight
+            }
+          }
+        }
       };
       setReport(formattedData);
       setLocationByName(data.location);
@@ -289,10 +326,7 @@ const FishingTripDetailsPage = () => {
       <form className="report-form" onSubmit={handleSubmit}>
         <div>
           <label className="text-left flex-1">
-            Tides:
-            <div>
-              PLACEHOLDER
-            </div>
+            <TidesWidget tides={report.tides} arrivalTime={report.arrivalTime} />
           </label>
         </div>
         <MultiCheckboxes
