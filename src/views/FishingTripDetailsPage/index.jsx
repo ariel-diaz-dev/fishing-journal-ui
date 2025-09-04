@@ -287,6 +287,45 @@ const FishingTripDetailsPage = () => {
 
       {/* Fishing Report Form */}
       <form className="report-form" onSubmit={handleSubmit}>
+        <div>
+          <label className="text-left flex-1">
+            Tides:
+            <div>
+              PLACEHOLDER
+            </div>
+          </label>
+        </div>
+        <MultiCheckboxes
+          label="Conditions"
+          options={weatherConditions}
+          selectedValues={report.weatherConditions || []}
+          onChange={handleWeatherConditionsChange}
+          getDisplayName={getWeatherDisplayName}
+        />
+        <div className="flex flex-row gap-4 mt-3">
+          <label className="text-left flex-1">
+            Water Temperature:
+            <input
+              type="number"
+              name="waterTemperature"
+              value={report.waterTemperature || ''}
+              onChange={handleInputChange}
+              placeholder="Enter water temperature"
+              className="w-full font-normal mt-1"
+            />
+          </label>
+          <label className="text-left flex-1">
+            Temperature:
+            <input
+              type="number"
+              name="temperature"
+              value={report.temperature}
+              onChange={handleInputChange}
+              placeholder="Enter temperature"
+              className="w-full font-normal mt-1"
+            />
+          </label>
+        </div>
         <label className="text-left">
           Species Caught:
           <textarea
@@ -297,13 +336,6 @@ const FishingTripDetailsPage = () => {
             className="font-normal"
           />
         </label>
-        <MultiCheckboxes
-          label="Weather Conditions"
-          options={weatherConditions}
-          selectedValues={report.weatherConditions || []}
-          onChange={handleWeatherConditionsChange}
-          getDisplayName={getWeatherDisplayName}
-        />
 
         {renderTackleSelect()}
 

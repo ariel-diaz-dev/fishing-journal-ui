@@ -28,7 +28,7 @@ const MultiCheckboxes = ({
 
   return (
     <div className="text-left">
-      {label && <strong>{label}:</strong>}
+      {label && <strong style={{ color: '#34495e' }}>{label}:</strong>}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
