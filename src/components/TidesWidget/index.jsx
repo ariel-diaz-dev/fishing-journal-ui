@@ -97,10 +97,10 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
       }
     },
     stroke: {
-      curve: 'straight',
-      width: [3, 0, 0]
+      curve: 'smooth',
+      width: [4, 0, 0]
     },
-    colors: ['#3b82f6', '#ef4444', '#22c55e'],
+    colors: ['#1e40af', '#ef4444', '#22c55e'],
     fill: {
       type: ['gradient', 'solid', 'solid'],
       gradient: {
