@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import moment from 'moment';
 
-const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
+const TidesWidget = ({ tides: { first, second }, arrivalTime, departureTime }) => {
   const chartData = useMemo(() => {
     const tidePoints = [
       { time: first.high.time, height: first.high.height, type: 'High' },
@@ -22,10 +22,10 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
     const lineData = [];
     const highTideMarkers = [];
     const lowTideMarkers = [];
-    
+
     sortedTides.forEach(tide => {
       lineData.push([tide.hour, tide.height]);
-      
+
       if (tide.type === 'High') {
         highTideMarkers.push([tide.hour, tide.height]);
       } else {
@@ -33,9 +33,13 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
       }
     });
 
-    const arrivalHour = arrivalTime ? 
-      moment(arrivalTime, ['HH:mm', 'hh:mm']).hour() + 
+    const arrivalHour = arrivalTime ?
+      moment(arrivalTime, ['HH:mm', 'hh:mm']).hour() +
       moment(arrivalTime, ['HH:mm', 'hh:mm']).minute() / 60 : null;
+
+    const departureHour = departureTime ?
+      moment(departureTime, ['HH:mm', 'hh:mm']).hour() +
+      moment(departureTime, ['HH:mm', 'hh:mm']).minute() / 60 : null;
 
     const series = [
       {
@@ -55,8 +59,50 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
       }
     ];
 
-    return { series, tidePoints: sortedTides, arrivalHour };
-  }, [first, second, arrivalTime]);
+    return { series, tidePoints: sortedTides, arrivalHour, departureHour };
+  }, [first, second, arrivalTime, departureTime]);
+
+  const arrivalAnnotation = {
+    x: chartData.arrivalHour,
+    strokeDashArray: 5,
+    borderColor: '#FF6B35',
+    borderWidth: 2,
+    label: {
+      text: 'Arrival',
+      style: {
+        color: '#FF6B35',
+        background: '#fff',
+        fontSize: '15px',
+        fontWeight: 'bold'
+      },
+      position: 'top'
+    }
+  };
+
+  const departureAnnotation = {
+    x: chartData.departureHour,
+    strokeDashArray: 5,
+    borderColor: '#3b82f6',
+    borderWidth: 2,
+    label: {
+      text: 'Departure',
+      style: {
+        color: '#3b82f6',
+        background: '#fff',
+        fontSize: '15px',
+        fontWeight: 'bold'
+      },
+      position: 'top'
+    }
+  };
+
+  let xAxisAnnotations = [];
+  if (chartData.arrivalHour) {
+    xAxisAnnotations = [arrivalAnnotation];
+  }
+  if (chartData.departureHour) {
+    xAxisAnnotations.push(departureAnnotation);
+  }
 
   const options = {
     chart: {
@@ -69,24 +115,9 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
         enabled: false
       }
     },
-    annotations: chartData.arrivalHour ? {
-      xaxis: [{
-        x: chartData.arrivalHour,
-        strokeDashArray: 5,
-        borderColor: '#FF6B35',
-        borderWidth: 2,
-        label: {
-          text: 'Arrival',
-          style: {
-            color: '#FF6B35',
-            background: '#fff',
-            fontSize: '15px',
-            fontWeight: 'bold'
-          },
-          position: 'top'
-        }
-      }]
-    } : {},
+    annotations: {
+      xaxis: xAxisAnnotations
+    },
     title: {
       text: 'Tides',
       align: 'center',
@@ -128,7 +159,7 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
       max: 23,
       tickAmount: 6,
       labels: {
-        formatter: function(val) {
+        formatter: function (val) {
           return `${Math.floor(val)}:00`;
         }
       },
@@ -143,7 +174,7 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
       min: -1,
       max: 4,
       labels: {
-        formatter: function(val) {
+        formatter: function (val) {
           return val.toFixed(1);
         }
       }
@@ -154,10 +185,10 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
     tooltip: {
       shared: false,
       intersect: true,
-      custom: function({ series, seriesIndex, dataPointIndex, w }) {
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
         const value = series[seriesIndex][dataPointIndex];
         const hour = w.globals.seriesX[seriesIndex][dataPointIndex];
-        
+
         if (seriesIndex === 0) {
           return `<div class="apexcharts-tooltip-custom" style="padding: 10px;">
             <strong>Tide Height: ${value.toFixed(1)}ft</strong><br/>
@@ -165,7 +196,7 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
           </div>`;
         } else {
           const tideType = seriesIndex === 1 ? 'High' : 'Low';
-          const tidePoint = chartData.tidePoints.find(point => 
+          const tidePoint = chartData.tidePoints.find(point =>
             Math.abs(point.hour - hour) < 0.1 && point.type === tideType
           );
           return `<div class="apexcharts-tooltip-custom" style="padding: 10px;">
@@ -182,11 +213,11 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
 
   return (
     <div style={{ height: '300px', width: '100%', marginTop: '0px' }}>
-      <ReactApexChart 
-        options={options} 
-        series={chartData.series} 
-        type="line" 
-        height={300} 
+      <ReactApexChart
+        options={options}
+        series={chartData.series}
+        type="line"
+        height={300}
       />
     </div>
   );

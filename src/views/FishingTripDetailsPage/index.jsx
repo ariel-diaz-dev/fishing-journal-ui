@@ -326,7 +326,11 @@ const FishingTripDetailsPage = () => {
       <form className="report-form" onSubmit={handleSubmit}>
         <div>
           <label className="text-left flex-1">
-            <TidesWidget tides={report.tides} arrivalTime={report.arrivalTime} />
+            <TidesWidget
+              tides={report.tides}
+              arrivalTime={report.arrivalTime}
+              departureTime={report.departureTime}
+            />
           </label>
         </div>
         <MultiCheckboxes
