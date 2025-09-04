@@ -109,8 +109,8 @@ const TidesWidget = ({ tides: { first, second }, arrivalTime }) => {
         shadeIntensity: 0.5,
         gradientToColors: ['#3b82f680'],
         inverseColors: false,
-        opacityFrom: 0.3,
-        opacityTo: 0.1
+        opacityFrom: 0.95,
+        opacityTo: 0.4
       }
     },
     markers: {
