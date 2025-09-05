@@ -190,3 +190,9 @@
     color: #e74c3c;
   }
   
+  .first-tides,
+  .second-tides {
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    padding: 20px;
+  }

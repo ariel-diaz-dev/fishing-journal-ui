@@ -11,6 +11,7 @@ import {
   useDeleteTripMutation,
   useGetTackleQuery
 } from "../../services/fishing-journal-api";
+import { weatherConditions } from "../../configs";
 
 import "./index.css";
 
@@ -20,7 +21,6 @@ const EditFishingTripPage = () => {
   const [updateTrip, { isLoading: isUpdating }] = useUpdateTripMutation();
   const [deleteTrip] = useDeleteTripMutation();
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
-  const weatherConditions = ['Windy', 'Cloudy', 'Sunny', 'Hot', 'VeryHot', 'Cold', 'VeryCold', 'Rainy', 'Foggy', 'Stormy', 'StrongCurrent', 'Other'];
 
   const [report, setReport] = useState({
     id: "",

@@ -7,12 +7,12 @@ import useLocation from "../../hooks/useLocation";
 import {
     useGetTackleQuery
 } from "../../services/fishing-journal-api";
+import { weatherConditions } from "../../configs";
 
 import "./index.css";
 
 const NewFishingTripPage = () => {
     const { data: tackle } = useGetTackleQuery();
-    const weatherConditions = ['Windy', 'Cloudy', 'Sunny', 'Hot', 'VeryHot', 'Cold', 'VeryCold', 'Rainy', 'Foggy', 'Stormy', 'StrongCurrent', 'Other'];
 
     const [report, setReport] = useState({
         id: "",
@@ -25,21 +25,21 @@ const NewFishingTripPage = () => {
         tides: {
             first: {
                 high: {
-                    time: moment().format(),
-                    height: 0
+                    time: moment().set({ hour: 9, minute: 30 }).format("HH:mm"),
+                    height: 2.5
                 },
                 low: {
-                    time: moment().format(),
+                    time: moment().set({ hour: 3, minute: 30 }).format("HH:mm"),
                     height: 0
                 }
             },
             second: {
                 high: {
-                    time: moment().format(),
-                    height: 0
+                    time: moment().set({ hour: 21, minute: 30 }).format("HH:mm"),
+                    height: 1.5
                 },
                 low: {
-                    time: moment().format(),
+                    time: moment().set({ hour: 15, minute: 30 }).format("HH:mm"),
                     height: 0
                 }
             }
@@ -68,6 +68,22 @@ const NewFishingTripPage = () => {
         } else if (name === "location") {
             setReport({ ...report, location: value });
             setLocationByName(value);
+        } else if (name.startsWith("tides.")) {
+            // Handle tides nested object updates
+            const [, period, type, property] = name.split(".");
+            setReport({
+                ...report,
+                tides: {
+                    ...report.tides,
+                    [period]: {
+                        ...report.tides[period],
+                        [type]: {
+                            ...report.tides[period][type],
+                            [property]: property === "height" ? parseFloat(value) || 0 : value
+                        }
+                    }
+                }
+            });
         } else {
             setReport({ ...report, [name]: value });
         }
@@ -271,6 +287,116 @@ const NewFishingTripPage = () => {
                         />
                     </label>
                 </div>
+                
+                {/* Tides Input Fields */}
+                <div className="tides-inputs-section mt-4 mb-4">
+                    <h3 className="text-lg font-semibold mb-3 text-gray-700">Tide Information</h3>
+                    <div className="grid grid-cols-2 gap-6">
+                        <div className="first-tides">
+                            <h4 className="font-medium mb-3 text-gray-600">First Tides</h4>
+                            <div className="flex gap-4 mb-3">
+                                <label className="flex-1 text-left">
+                                    <strong>High Time:</strong>
+                                    <input
+                                        type="time"
+                                        name="tides.first.high.time"
+                                        value={report.tides.first.high.time}
+                                        onChange={handleInputChange}
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                                <label className="flex-1 text-left">
+                                    <strong>High Height (ft):</strong>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        name="tides.first.high.height"
+                                        value={report.tides.first.high.height}
+                                        onChange={handleInputChange}
+                                        placeholder="0.0"
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                            </div>
+                            <div className="flex gap-4">
+                                <label className="flex-1 text-left">
+                                    <strong>Low Time:</strong>
+                                    <input
+                                        type="time"
+                                        name="tides.first.low.time"
+                                        value={report.tides.first.low.time}
+                                        onChange={handleInputChange}
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                                <label className="flex-1 text-left">
+                                    <strong>Low Height (ft):</strong>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        name="tides.first.low.height"
+                                        value={report.tides.first.low.height}
+                                        onChange={handleInputChange}
+                                        placeholder="0.0"
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                        <div className="second-tides">
+                            <h4 className="font-medium mb-3 text-gray-600">Second Tides</h4>
+                            <div className="flex gap-4 mb-3">
+                                <label className="flex-1 text-left">
+                                    <strong>High Time:</strong>
+                                    <input
+                                        type="time"
+                                        name="tides.second.high.time"
+                                        value={report.tides.second.high.time}
+                                        onChange={handleInputChange}
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                                <label className="flex-1 text-left">
+                                    <strong>High Height (ft):</strong>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        name="tides.second.high.height"
+                                        value={report.tides.second.high.height}
+                                        onChange={handleInputChange}
+                                        placeholder="0.0"
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                            </div>
+                            <div className="flex gap-4">
+                                <label className="flex-1 text-left">
+                                    <strong>Low Time:</strong>
+                                    <input
+                                        type="time"
+                                        name="tides.second.low.time"
+                                        value={report.tides.second.low.time}
+                                        onChange={handleInputChange}
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                                <label className="flex-1 text-left">
+                                    <strong>Low Height (ft):</strong>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        name="tides.second.low.height"
+                                        value={report.tides.second.low.height}
+                                        onChange={handleInputChange}
+                                        placeholder="0.0"
+                                        className="w-full font-normal mt-1"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <MultiCheckboxes
                     label="Conditions"
                     options={weatherConditions}
