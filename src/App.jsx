@@ -4,6 +4,7 @@ import "./App.css";
 import NewFishingTripPage from "./views/NewFishingTripPage";
 import TopNav from "./components/Topnav";
 import HomePage from "./views/HomePage";
+import EditFishingTripPage from "./views/EditFishingTripPage";
 import FishingTripDetailsPage from "./views/FishingTripDetailsPage";
 import FishingTripListPage from "./views/FishingTripListPage";
 import Footer from "./components/Footer";
@@ -26,6 +27,7 @@ const AppContent = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<HomePage />} />
           <Route path="/new-trip" element={<NewFishingTripPage />} />
+          <Route path="/trips/:tripId/edit" element={<EditFishingTripPage />} />
           <Route path="/trips/:tripId" element={<FishingTripDetailsPage />} />
           <Route path="/trips" element={<FishingTripListPage />} />
           <Route path="/tackle" element={<TackleListPage />} />
