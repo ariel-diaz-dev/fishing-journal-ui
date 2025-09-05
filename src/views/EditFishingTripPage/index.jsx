@@ -24,6 +24,7 @@ const EditFishingTripPage = () => {
 
   const [report, setReport] = useState({
     id: "",
+    title: "",
     location: "",
     notes: "",
     date: moment().format("YYYY-MM-DD"),
@@ -243,6 +244,17 @@ const EditFishingTripPage = () => {
       <div className="trip-details text-left grid grid-cols-2 ">
         <div className="pr-5">
           <label className="text-left">
+            <strong>Title:</strong>
+            <input
+              type="text"
+              name="title"
+              value={report.title}
+              onChange={handleInputChange}
+              placeholder="Enter trip title"
+              className="w-full font-normal mt-1"
+            />
+          </label>
+          <label className="text-left mt-4">
             <strong>Location:</strong>
             <select
               name="location"
@@ -267,26 +279,28 @@ const EditFishingTripPage = () => {
               className="w-full font-normal mt-1"
             />
           </label>
-          <label className="flex-1 text-left">
-            Arrival Time:
-            <input
-              type="time"
-              name="arrivalTime"
-              value={report.arrivalTime}
-              onChange={handleInputChange}
-              className="w-full font-normal"
-            />
-          </label>
-          <label className="flex-1 text-left">
-            Departure Time:
-            <input
-              type="time"
-              name="departureTime"
-              value={report.departureTime}
-              onChange={handleInputChange}
-              className="w-full font-normal"
-            />
-          </label>
+          <div className="flex gap-4 mt-4">
+            <label className="flex-1 text-left">
+              <strong>Arrival Time:</strong>
+              <input
+                type="time"
+                name="arrivalTime"
+                value={report.arrivalTime}
+                onChange={handleInputChange}
+                className="w-full font-normal mt-1"
+              />
+            </label>
+            <label className="flex-1 text-left">
+              <strong>Departure Time:</strong>
+              <input
+                type="time"
+                name="departureTime"
+                value={report.departureTime}
+                onChange={handleInputChange}
+                className="w-full font-normal mt-1"
+              />
+            </label>
+          </div>
         </div>
         <div className="pt-8">
           <Map

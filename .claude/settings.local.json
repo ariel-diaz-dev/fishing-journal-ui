@@ -6,7 +6,8 @@
       "Read(/D:\\Projects\\fishing-journal-ui/**)",
       "Bash(npm uninstall:*)",
       "Bash(npm install:*)",
-      "Read(/D:\\Projects\\fishing-journal-ui\\src\\views\\FishingTripDetailsPage/**)"
+      "Read(/D:\\Projects\\fishing-journal-ui\\src\\views\\FishingTripDetailsPage/**)",
+      "Read(/D:\\Projects\\fishing-journal-ui\\src\\views\\EditFishingTripPage/**)"
     ],
     "deny": [],
     "ask": []
