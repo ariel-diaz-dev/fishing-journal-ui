@@ -58,8 +58,7 @@ const FishingTripDetailsPage = () => {
 
   const {
     setLocationByName,
-    selectedLocation,
-    locations
+    selectedLocation
   } = useLocation();
 
   useEffect(() => {
