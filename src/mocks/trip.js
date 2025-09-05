@@ -1,5 +1,6 @@
 const trip = {
     id: "trip-001",
+    title: "The one where I caught my PB Tarpon",
     location: "Flamingo, Everglades",
     notes: "Excited to explore the flats and catch some snook!",
     date: "2025-01-01",

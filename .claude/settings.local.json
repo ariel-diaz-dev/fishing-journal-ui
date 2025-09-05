@@ -5,7 +5,8 @@
       "Read(/D:\\Projects\\fishing-journal-ui\\src\\components\\TidesWidget/**)",
       "Read(/D:\\Projects\\fishing-journal-ui/**)",
       "Bash(npm uninstall:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Read(/D:\\Projects\\fishing-journal-ui\\src\\views\\FishingTripDetailsPage/**)"
     ],
     "deny": [],
     "ask": []
