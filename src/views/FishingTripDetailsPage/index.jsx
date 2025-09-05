@@ -283,7 +283,7 @@ const FishingTripDetailsPage = () => {
           </div>
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="flex justify-end mt-4">
           <button
             type="button"
             onClick={handleEditTrip}

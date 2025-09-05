@@ -416,8 +416,10 @@ const EditFishingTripPage = () => {
           />
         </label>
 
-        <button type="submit" disabled={isUpdating}>Save Report</button>
-        <button type="button" onClick={onDelete} className="delete-button">Delete Trip</button>
+        <div className="flex justify-end mt-4">
+          <button type="submit" disabled={isUpdating}>Save Report</button>
+          <button type="button" onClick={onDelete} className="delete-button">Delete Trip</button>
+        </div>
       </form>
     </div>
   );
