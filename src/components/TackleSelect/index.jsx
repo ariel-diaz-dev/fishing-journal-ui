@@ -28,7 +28,6 @@ const TackleSelect = ({ tackle, selectedTackle, onTackleChange }) => {
               >
                 <div className="tackle-card-content">
                   <span className="tackle-name">{item.name}</span>
-                  <span className="tackle-details">{item.brand}</span>
                   <span className="tackle-type">{item.type}</span>
                 </div>
               </div>
