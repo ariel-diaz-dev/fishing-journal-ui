@@ -4,6 +4,7 @@ import moment from "moment";
 import Map from "../../components/Map";
 import MultiCheckboxes from "../../components/MultiCheckboxes";
 import TidesWidget from "../../components/TidesWidget";
+import TackleSelect from "../../components/TackleSelect";
 import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
@@ -175,66 +176,9 @@ const EditFishingTripPage = () => {
     onSaveReport();
   };
 
-  const renderTackleSelect = () => (
-    <div className="tackle-select-container">
-      <div className="tackle-grid">
-
-        <div className="available-tackle">
-          <h3>Available Tackle:</h3>
-          <div className="tackle-cards">
-            {tackle?.filter(item => !report.tackle.includes(item.id)).map(item => (
-              <div
-                key={item.id}
-                className="tackle-card"
-                onClick={() => {
-                  const newTackle = [...report.tackle, item.id];
-                  setReport({ ...report, tackle: newTackle });
-                }}
-              >
-                <div className="tackle-card-content">
-                  <span className="tackle-name">{item.name}</span>
-                  <span className="tackle-details">{item.brand}</span>
-                  <span className="tackle-type">{item.type}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {report.tackle.length > 0 && (
-          <div className="selected-tackle">
-            <h3>Selected Tackle:</h3>
-            <div className="tackle-tags">
-              {report.tackle.map(tackleId => {
-                const item = tackle?.find(t => t.id === tackleId);
-                if (!item) return null;
-                return (
-                  <div key={item.id} className="tackle-tag">
-                    <span className="tackle-tag-content">
-                      <span className="tackle-name">{item.name}</span>
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const newTackle = report.tackle.filter(id => id !== item.id);
-                        setReport({ ...report, tackle: newTackle });
-                      }}
-                      className="remove-tag"
-                      aria-label={`Remove ${item.name}`}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="red" strokeWidth="2" width="18px" height="18px">
-                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" />
-                      </svg>
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  const handleTackleChange = (newTackle) => {
+    setReport({ ...report, tackle: newTackle });
+  };
 
   return (
     <div className="details-page">
@@ -389,7 +333,11 @@ const EditFishingTripPage = () => {
           />
         </label>
 
-        {renderTackleSelect()}
+        <TackleSelect
+          tackle={tackle}
+          selectedTackle={report.tackle}
+          onTackleChange={handleTackleChange}
+        />
 
         <label className="text-left">
           Video URL:
