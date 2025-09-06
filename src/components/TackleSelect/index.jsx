@@ -2,7 +2,7 @@ import React from "react";
 import "./index.css";
 
 const TackleSelect = ({ tackle, selectedTackle, onTackleChange }) => {
-  const availableTackle = tackle?.filter(item => !selectedTackle.includes(item.id));
+  const availableTackle = tackle?.filter(item => !selectedTackle.includes(item.id)) || [];
 
   const handleAddTackle = (tackleId) => {
     const newTackle = [...selectedTackle, tackleId];

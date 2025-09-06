@@ -122,7 +122,6 @@ const EditFishingTripPage = () => {
         ...report
       }).unwrap();
       successToast("Trip report updated successfully!");
-      navigate("/dashboard");
       window.scrollTo(0, 0);
     } catch (err) {
       console.error('Failed to save trip:', err);

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import Map from "../../components/Map";
 import MultiCheckboxes from "../../components/MultiCheckboxes";
@@ -15,6 +16,7 @@ import { weatherConditions } from "../../configs";
 import "./index.css";
 
 const NewFishingTripPage = () => {
+    const navigate = useNavigate();
     const { data: tackle } = useGetTackleQuery();
 
     const [showSaveModal, setShowSaveModal] = useState(false);
@@ -121,10 +123,13 @@ const NewFishingTripPage = () => {
 
     const handleSaveTrip = () => {
         try {
-            console.log(report);
+            console.log(">>>>>>> SAVING TRIP", report);
             // TODO: Implement save new fishing trip logic
-            successToast("New trip report saved successfully!");
             setShowSaveModal(false);
+            successToast("New trip report saved successfully!");
+            // TODO: navigate to the read-only view of the newly created trip
+            navigate("/dashboard");
+            window.scrollTo(0, 0);
             // TODO: Navigate to dashboard after implementation
         } catch (err) {
             console.error('Failed to save trip:', err);
