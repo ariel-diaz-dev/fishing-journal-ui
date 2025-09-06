@@ -44,13 +44,16 @@ const TackleSelect = ({ tackle, selectedTackle, onTackleChange }) => {
                 const item = tackle?.find(t => t.id === tackleId);
                 if (!item) return null;
                 return (
-                  <div key={item.id} className="tackle-tag">
+                  <div
+                    key={item.id}
+                    className="tackle-tag"
+                    onClick={() => handleRemoveTackle(item.id)}
+                  >
                     <span className="tackle-tag-content">
                       <span className="tackle-name">{item.name}</span>
                     </span>
                     <button
                       type="button"
-                      onClick={() => handleRemoveTackle(item.id)}
                       className="remove-tag"
                       aria-label={`Remove ${item.name}`}
                     >
