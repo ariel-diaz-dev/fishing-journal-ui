@@ -2,6 +2,8 @@ import React from "react";
 import "./index.css";
 
 const TackleSelect = ({ tackle, selectedTackle, onTackleChange }) => {
+  const availableTackle = tackle?.filter(item => !selectedTackle.includes(item.id));
+
   const handleAddTackle = (tackleId) => {
     const newTackle = [...selectedTackle, tackleId];
     onTackleChange(newTackle);
@@ -15,10 +17,10 @@ const TackleSelect = ({ tackle, selectedTackle, onTackleChange }) => {
   return (
     <div className="tackle-select-container">
       <div className="tackle-grid">
-        <div className="available-tackle">
+        {availableTackle.length > 0 && (<div className="available-tackle">
           <h3>Available Tackle:</h3>
           <div className="tackle-cards">
-            {tackle?.filter(item => !selectedTackle.includes(item.id)).map(item => (
+            {availableTackle?.map(item => (
               <div
                 key={item.id}
                 className="tackle-card"
@@ -32,7 +34,7 @@ const TackleSelect = ({ tackle, selectedTackle, onTackleChange }) => {
               </div>
             ))}
           </div>
-        </div>
+        </div>)}
 
         {selectedTackle.length > 0 && (
           <div className="selected-tackle">
