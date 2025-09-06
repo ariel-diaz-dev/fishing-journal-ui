@@ -104,6 +104,7 @@ const FishingTripDetailsPage = () => {
 
   const handleEditTrip = () => {
     navigate(`/trips/trip-001/edit`);
+    window.scrollTo(0, 0);
   };
 
   const getWeatherDisplayName = (condition) => {
