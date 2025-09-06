@@ -5,6 +5,7 @@ import {
   useUpdateTackleMutation,
   useDeleteTackleMutation
 } from "../../services/fishing-journal-api";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import "./index.css";
 
 const TackleDetailsPage = () => {
@@ -14,6 +15,8 @@ const TackleDetailsPage = () => {
   const [updateTackle, { isLoading: isUpdating }] = useUpdateTackleMutation();
   const [deleteTackle] = useDeleteTackleMutation();
   const { data, error, isLoading } = useGetTackleByIdQuery(tackleId);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [tackleDetails, setTackleDetails] = useState({
     name: "",
@@ -39,6 +42,10 @@ const TackleDetailsPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setShowSaveModal(true);
+  };
+
+  const handleSaveTackle = async () => {
     try {
       await updateTackle({
         id: tackleId,
@@ -47,18 +54,24 @@ const TackleDetailsPage = () => {
       navigate("/tackle");
     } catch (err) {
       console.error("Failed to update tackle:", err);
+    } finally {
+      setShowSaveModal(false);
     }
   };
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this tackle?")) {
-      try {
-        await deleteTackle(tackleId).unwrap();
-        navigate("/tackle");
-      } catch (err) {
-        console.error("Failed to delete tackle:", err);
-      }
+    try {
+      await deleteTackle(tackleId).unwrap();
+      navigate("/tackle");
+    } catch (err) {
+      console.error("Failed to delete tackle:", err);
+    } finally {
+      setShowDeleteModal(false);
     }
+  };
+
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
   };
 
   return (
@@ -144,13 +157,35 @@ const TackleDetailsPage = () => {
           <button
             type="button"
             className="btn btn-danger delete-button"
-            onClick={handleDelete}
+            onClick={handleDeleteClick}
             aria-label="Delete this tackle"
           >
             Delete Tackle
           </button>
         </div>
       </form>
+
+      <ConfirmationModal
+        isOpen={showSaveModal}
+        title="Save Changes"
+        description="Are you sure you want to save the changes to this tackle item? The updates will be applied to your tackle collection."
+        variant="primary"
+        confirmButtonText="Save"
+        cancelButtonText="Cancel"
+        onConfirm={handleSaveTackle}
+        onCancel={() => setShowSaveModal(false)}
+      />
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        title="Delete Tackle"
+        description="Are you sure you want to delete this tackle item? This action cannot be undone and the tackle will be permanently removed from your collection."
+        variant="danger"
+        confirmButtonText="Delete"
+        cancelButtonText="Cancel"
+        onConfirm={handleDelete}
+        onCancel={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 };

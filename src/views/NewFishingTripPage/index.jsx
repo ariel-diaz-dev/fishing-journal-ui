@@ -4,6 +4,7 @@ import Map from "../../components/Map";
 import MultiCheckboxes from "../../components/MultiCheckboxes";
 import TidesWidget from "../../components/TidesWidget";
 import TackleSelect from "../../components/TackleSelect";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import useLocation from "../../hooks/useLocation";
 import {
     useGetTackleQuery
@@ -15,6 +16,7 @@ import "./index.css";
 const NewFishingTripPage = () => {
     const { data: tackle } = useGetTackleQuery();
 
+    const [showSaveModal, setShowSaveModal] = useState(false);
     const [report, setReport] = useState({
         id: "",
         title: "",
@@ -112,8 +114,13 @@ const NewFishingTripPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(report)
+        setShowSaveModal(true);
+    };
+
+    const handleSaveTrip = () => {
+        console.log(report);
         // TODO: Implement save new fishing trip logic
+        setShowSaveModal(false);
     };
 
     const handleTackleChange = (newTackle) => {
@@ -419,6 +426,17 @@ const NewFishingTripPage = () => {
                         Save Report
                     </button>
                 </div>
+
+                <ConfirmationModal
+                    isOpen={showSaveModal}
+                    title="Save Report"
+                    description="Are you sure you want to save this new fishing trip report? Once saved, you can edit it later from your dashboard."
+                    variant="primary"
+                    confirmButtonText="Save"
+                    cancelButtonText="Cancel"
+                    onConfirm={handleSaveTrip}
+                    onCancel={() => setShowSaveModal(false)}
+                />
             </form>
         </div>
     );

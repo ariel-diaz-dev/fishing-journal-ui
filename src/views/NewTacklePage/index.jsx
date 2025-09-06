@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddTackleMutation } from "../../services/fishing-journal-api";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import "./index.css";
 
 const NewTacklePage = () => {
     const navigate = useNavigate();
     const [addTackle, { isLoading }] = useAddTackleMutation();
+    const [showSaveModal, setShowSaveModal] = useState(false);
 
     const [tackleDetails, setTackleDetails] = useState({
         name: "",
@@ -22,11 +24,17 @@ const NewTacklePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setShowSaveModal(true);
+    };
+
+    const handleSaveTackle = async () => {
         try {
             await addTackle(tackleDetails).unwrap();
             navigate("/tackle");
         } catch (err) {
             console.error("Failed to save tackle:", err);
+        } finally {
+            setShowSaveModal(false);
         }
     };
 
@@ -110,6 +118,17 @@ const NewTacklePage = () => {
                     {isLoading ? "Saving..." : "Save Tackle"}
                 </button>
             </form>
+
+            <ConfirmationModal
+                isOpen={showSaveModal}
+                title="Save Tackle"
+                description="Are you sure you want to save this new tackle item? It will be added to your tackle collection and available for use in fishing trips."
+                variant="primary"
+                confirmButtonText="Save"
+                cancelButtonText="Cancel"
+                onConfirm={handleSaveTackle}
+                onCancel={() => setShowSaveModal(false)}
+            />
         </div>
     );
 };

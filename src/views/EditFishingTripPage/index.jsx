@@ -5,6 +5,7 @@ import Map from "../../components/Map";
 import MultiCheckboxes from "../../components/MultiCheckboxes";
 import TidesWidget from "../../components/TidesWidget";
 import TackleSelect from "../../components/TackleSelect";
+import ConfirmationModal from "../../components/ConfirmationModal";
 import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
@@ -21,6 +22,8 @@ const EditFishingTripPage = () => {
   const { data: tackle } = useGetTackleQuery();
   const [updateTrip, { isLoading: isUpdating }] = useUpdateTripMutation();
   const [deleteTrip] = useDeleteTripMutation();
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
 
   const [report, setReport] = useState({
@@ -124,15 +127,21 @@ const EditFishingTripPage = () => {
   }
 
   const onDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this trip?")) {
-      try {
-        await deleteTrip("trip-001").unwrap();
-        navigate("/dashboard");
-        window.scrollTo(0, 0);
-      } catch (err) {
-        console.error('Failed to delete trip:', err);
-      }
+    try {
+      await deleteTrip("trip-001").unwrap();
+      navigate("/dashboard");
+      window.scrollTo(0, 0);
+    } catch (err) {
+      console.error('Failed to delete trip:', err);
     }
+  };
+
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleSaveClick = () => {
+    setShowSaveModal(true);
   };
 
   // Handle form input changes
@@ -172,8 +181,7 @@ const EditFishingTripPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(report)
-    onSaveReport();
+    handleSaveClick();
   };
 
   const handleTackleChange = (newTackle) => {
@@ -366,8 +374,36 @@ const EditFishingTripPage = () => {
 
         <div className="flex justify-end mt-4">
           <button type="submit" disabled={isUpdating}>Save Report</button>
-          <button type="button" onClick={onDelete} className="delete-button">Delete Trip</button>
+          <button type="button" onClick={handleDeleteClick} className="delete-button">Delete Trip</button>
         </div>
+
+        <ConfirmationModal
+          isOpen={showSaveModal}
+          title="Save Report"
+          description="Are you sure you want to save this fishing report? This will update the existing trip with your changes."
+          variant="primary"
+          confirmButtonText="Save"
+          cancelButtonText="Cancel"
+          onConfirm={() => {
+            setShowSaveModal(false);
+            onSaveReport();
+          }}
+          onCancel={() => setShowSaveModal(false)}
+        />
+
+        <ConfirmationModal
+          isOpen={showDeleteModal}
+          title="Delete Trip"
+          description="Are you sure you want to delete this trip? This action cannot be undone and all trip data will be permanently lost."
+          variant="danger"
+          confirmButtonText="Delete"
+          cancelButtonText="Cancel"
+          onConfirm={() => {
+            setShowDeleteModal(false);
+            onDelete();
+          }}
+          onCancel={() => setShowDeleteModal(false)}
+        />
       </form>
     </div>
   );
