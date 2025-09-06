@@ -33,7 +33,6 @@ const TackleListPage = () => {
               >
                 <div className="tackle-info">
                   <span className="tackle-name">{item.name}</span>
-                  <span className="tackle-brand">{item.brand}</span>
                 </div>
                 <div className="tackle-type">{item.type}</div>
               </li>

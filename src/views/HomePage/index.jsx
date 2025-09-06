@@ -128,7 +128,6 @@ const HomePage = () => {
               onClick={() => redirectToTackleDetails(item.id)}
             >
               <span>{item.type}</span>
-              <span>{item.brand}</span>
               <span>{item.name}</span>
             </li>
           ))}

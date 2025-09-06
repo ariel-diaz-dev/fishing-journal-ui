@@ -23,8 +23,6 @@ const TackleDetailsPage = () => {
   const [tackleDetails, setTackleDetails] = useState({
     name: "",
     type: "",
-    brand: "",
-    model: "",
     notes: ""
   });
 
@@ -116,28 +114,6 @@ const TackleDetailsPage = () => {
             </select>
           </label>
 
-          <label>
-            <p><strong>Brand:</strong></p>
-            <input
-              type="text"
-              name="brand"
-              value={tackleDetails.brand}
-              onChange={handleChange}
-              required
-              placeholder="e.g. St. Croix"
-            />
-          </label>
-
-          <label>
-            <p><strong>Model:</strong></p>
-            <input
-              type="text"
-              name="model"
-              value={tackleDetails.model}
-              onChange={handleChange}
-              placeholder="e.g. Avid Inshore"
-            />
-          </label>
         </div>
 
         <label className="full-width">
