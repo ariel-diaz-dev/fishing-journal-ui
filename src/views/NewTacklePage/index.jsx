@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddTackleMutation } from "../../services/fishing-journal-api";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import { useToast } from "../../components/Toast/useToast";
 import "./index.css";
 
 const NewTacklePage = () => {
     const navigate = useNavigate();
     const [addTackle, { isLoading }] = useAddTackleMutation();
     const [showSaveModal, setShowSaveModal] = useState(false);
+    const { successToast, errorToast } = useToast();
 
     const [tackleDetails, setTackleDetails] = useState({
         name: "",
@@ -30,9 +32,11 @@ const NewTacklePage = () => {
     const handleSaveTackle = async () => {
         try {
             await addTackle(tackleDetails).unwrap();
+            successToast("Tackle saved successfully!");
             navigate("/tackle");
         } catch (err) {
             console.error("Failed to save tackle:", err);
+            errorToast("Failed to save tackle. Please try again.");
         } finally {
             setShowSaveModal(false);
         }

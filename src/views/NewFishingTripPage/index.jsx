@@ -5,6 +5,7 @@ import MultiCheckboxes from "../../components/MultiCheckboxes";
 import TidesWidget from "../../components/TidesWidget";
 import TackleSelect from "../../components/TackleSelect";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import { useToast } from "../../components/Toast/useToast";
 import useLocation from "../../hooks/useLocation";
 import {
     useGetTackleQuery
@@ -17,6 +18,7 @@ const NewFishingTripPage = () => {
     const { data: tackle } = useGetTackleQuery();
 
     const [showSaveModal, setShowSaveModal] = useState(false);
+    const { successToast, errorToast } = useToast();
     const [report, setReport] = useState({
         id: "",
         title: "",
@@ -118,9 +120,17 @@ const NewFishingTripPage = () => {
     };
 
     const handleSaveTrip = () => {
-        console.log(report);
-        // TODO: Implement save new fishing trip logic
-        setShowSaveModal(false);
+        try {
+            console.log(report);
+            // TODO: Implement save new fishing trip logic
+            successToast("New trip report saved successfully!");
+            setShowSaveModal(false);
+            // TODO: Navigate to dashboard after implementation
+        } catch (err) {
+            console.error('Failed to save trip:', err);
+            errorToast("Failed to save trip report. Please try again.");
+            setShowSaveModal(false);
+        }
     };
 
     const handleTackleChange = (newTackle) => {
@@ -238,7 +248,7 @@ const NewFishingTripPage = () => {
                         />
                     </label>
                 </div>
-                
+
                 {/* Tides Input Fields */}
                 <div className="tides-inputs-section mt-4 mb-4">
                     <h3 className="text-lg font-semibold mb-3 text-gray-700">Tide Information</h3>
@@ -347,7 +357,7 @@ const NewFishingTripPage = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 <MultiCheckboxes
                     label="Conditions"
                     options={weatherConditions}

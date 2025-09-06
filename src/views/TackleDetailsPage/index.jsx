@@ -6,17 +6,19 @@ import {
   useDeleteTackleMutation
 } from "../../services/fishing-journal-api";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import { useToast } from "../../components/Toast/useToast";
 import "./index.css";
 
 const TackleDetailsPage = () => {
   const navigate = useNavigate();
   const { tackleId } = useParams();
-  
+
   const [updateTackle, { isLoading: isUpdating }] = useUpdateTackleMutation();
   const [deleteTackle] = useDeleteTackleMutation();
   const { data, error, isLoading } = useGetTackleByIdQuery(tackleId);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { successToast, errorToast } = useToast();
 
   const [tackleDetails, setTackleDetails] = useState({
     name: "",
@@ -28,7 +30,7 @@ const TackleDetailsPage = () => {
 
   useEffect(() => {
     if (!isLoading && data) {
-        setTackleDetails(data);
+      setTackleDetails(data);
     }
   }, [data, isLoading]);
 
@@ -51,9 +53,11 @@ const TackleDetailsPage = () => {
         id: tackleId,
         ...tackleDetails
       }).unwrap();
+      successToast("Tackle updated successfully!");
       navigate("/tackle");
     } catch (err) {
       console.error("Failed to update tackle:", err);
+      errorToast("Failed to update tackle. Please try again.");
     } finally {
       setShowSaveModal(false);
     }
@@ -62,9 +66,11 @@ const TackleDetailsPage = () => {
   const handleDelete = async () => {
     try {
       await deleteTackle(tackleId).unwrap();
+      successToast("Tackle deleted successfully!");
       navigate("/tackle");
     } catch (err) {
       console.error("Failed to delete tackle:", err);
+      errorToast("Failed to delete tackle. Please try again.");
     } finally {
       setShowDeleteModal(false);
     }

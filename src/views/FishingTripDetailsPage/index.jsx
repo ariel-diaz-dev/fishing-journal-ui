@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import Map from "../../components/Map";
 import TidesWidget from "../../components/TidesWidget";
-import ConfirmationModal from "../../components/ConfirmationModal";
 import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
@@ -15,7 +14,6 @@ import "./index.css";
 const FishingTripDetailsPage = () => {
   const navigate = useNavigate();
   const { data: tackle } = useGetTackleQuery();
-  const [showEditModal, setShowEditModal] = useState(false);
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
 
   const [report, setReport] = useState({
@@ -106,10 +104,6 @@ const FishingTripDetailsPage = () => {
 
   const handleEditTrip = () => {
     navigate(`/trips/trip-001/edit`);
-  };
-
-  const handleEditClick = () => {
-    setShowEditModal(true);
   };
 
   const getWeatherDisplayName = (condition) => {
@@ -291,26 +285,12 @@ const FishingTripDetailsPage = () => {
         <div className="flex justify-end mt-4">
           <button
             type="button"
-            onClick={handleEditClick}
+            onClick={handleEditTrip}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             Edit Trip
           </button>
         </div>
-
-        <ConfirmationModal
-          isOpen={showEditModal}
-          title="Edit Trip"
-          description="Are you sure you want to edit this fishing trip? You will be taken to the edit page where you can make changes."
-          variant="primary"
-          confirmButtonText="Edit"
-          cancelButtonText="Cancel"
-          onConfirm={() => {
-            setShowEditModal(false);
-            handleEditTrip();
-          }}
-          onCancel={() => setShowEditModal(false)}
-        />
       </div>
     </div>
   );

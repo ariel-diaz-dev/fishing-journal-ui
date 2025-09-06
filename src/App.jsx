@@ -14,6 +14,7 @@ import TackleDetailsPage from "./views/TackleDetailsPage";
 import LandingPage from "./views/LandingPage";
 import NotFoundPage from "./views/NotFoundPage";
 import ErrorPage from "./views/ErrorPage";
+import ToastContainer from "./components/Toast/ToastContainer";
 
 const AppContent = () => {
   const location = useLocation();
@@ -38,6 +39,7 @@ const AppContent = () => {
           </Routes>
       </main>
       {!displayNavAndFooter && <Footer />}
+      <ToastContainer />
     </div>
   );
 };

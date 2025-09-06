@@ -6,6 +6,7 @@ import MultiCheckboxes from "../../components/MultiCheckboxes";
 import TidesWidget from "../../components/TidesWidget";
 import TackleSelect from "../../components/TackleSelect";
 import ConfirmationModal from "../../components/ConfirmationModal";
+import { useToast } from "../../components/Toast/useToast";
 import useLocation from "../../hooks/useLocation";
 import {
   useGetTripByIdQuery,
@@ -24,6 +25,7 @@ const EditFishingTripPage = () => {
   const [deleteTrip] = useDeleteTripMutation();
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { successToast, errorToast } = useToast();
   const { data, error, isLoading } = useGetTripByIdQuery("trip-001");
 
   const [report, setReport] = useState({
@@ -119,20 +121,24 @@ const EditFishingTripPage = () => {
         id: "trip-001",
         ...report
       }).unwrap();
+      successToast("Trip report updated successfully!");
       navigate("/dashboard");
       window.scrollTo(0, 0);
     } catch (err) {
       console.error('Failed to save trip:', err);
+      errorToast("Failed to update trip report. Please try again.");
     }
   }
 
   const onDelete = async () => {
     try {
       await deleteTrip("trip-001").unwrap();
+      successToast("Trip deleted successfully!");
       navigate("/dashboard");
       window.scrollTo(0, 0);
     } catch (err) {
       console.error('Failed to delete trip:', err);
+      errorToast("Failed to delete trip. Please try again.");
     }
   };
 
